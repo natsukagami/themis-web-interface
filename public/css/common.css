@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "Noto Mono";
+    src: url(/public/css/fonts/NotoMono-Regular.ttf);
+}
+
+body {
+  padding: 50px;
+  font: 14px "Noto Mono", Helvetica, Arial, sans-serif;
+  padding-top: 70px;
+}
+
+a {
+  color: #00B7FF;
+}
+body {
+    background-color: #f8f8f8;
+}

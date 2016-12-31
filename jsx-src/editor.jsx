@@ -1,0 +1,52 @@
+const React = require('react');
+const Ace = require('react-ace').default;
+const Submission = require('../controls/submission');
+
+const brace = require('brace');
+window.brace = brace;
+
+require('brace/mode/c_cpp');
+require('brace/mode/pascal');
+require('brace/mode/python');
+require('brace/theme/monokai');
+
+/**
+ * Use ace / brace editor as the code editor.
+ */
+class Editor extends React.Component {
+	render() {
+		return <Ace
+			style={{width: '100%'}}
+			mode={Editor.modes[this.props.submission.ext]}
+			theme='monokai'
+			name='editor'
+			onChange={this.props.onChange}
+			value={this.props.submission.content}
+			editorProps={{$blockScrolling: true}}
+		/>;
+	}
+}
+Editor.modes = {
+	'C++': 'c_cpp',
+	Pascal: 'pascal',
+	Python: 'python'
+};
+Editor.propTypes = {
+	submission: React.PropTypes.instanceOf(Submission).isRequired,
+	onChange: React.PropTypes.func.isRequired
+};
+
+class EditorBox extends React.Component {
+	render() {
+		return <div>
+			<h4>Soạn code</h4>
+			<Editor submission={this.props.submission} onChange={this.props.onChange}/>
+		</div>;
+	}
+}
+EditorBox.propTypes = {
+	submission: React.PropTypes.instanceOf(Submission).isRequired,
+	onChange: React.PropTypes.func.isRequired
+};
+
+module.exports = EditorBox;

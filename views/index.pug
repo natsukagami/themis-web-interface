@@ -1,0 +1,9 @@
+extends ./layout
+
+block content 
+		#root
+			h2.text-center Loading...
+		script.
+			window.username = !{JSON.stringify(user.username)};
+		script(src='/public/js/index.js')
+		

@@ -1,6 +1,12 @@
+# Databases files
+data/*.db
+data/submit/*.cpp
+data/submit/*.pas
+data/submit/*.py
+
 # Logs
 logs
-*.log
+**.log
 npm-debug.log*
 
 # Runtime data
