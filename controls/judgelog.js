@@ -45,7 +45,6 @@ const Logs = { };
 
 function getLog(user, problem, ext, callback) {
 	if (!Logs[user]) Logs[user] = {};
-	if (Logs[user][problem + ext] !== undefined) return callback(Logs[user][problem + ext]);
 	fs.stat(Log.filename(user, problem, ext), (err, stat) => {
 		if (err) return callback(null);
 		if (Logs[user][problem + ext] === undefined || Logs[user][problem + ext].created.getTime() < stat.mtime.getTime()) {
