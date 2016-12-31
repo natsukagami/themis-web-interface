@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const Log = require('../controls/judgelog');
 
-const submitPath = path.join(process.cwd(), 'data', 'submit', 'logs');
+const submitPath = path.join(process.cwd(), 'data', 'submit');
 
 router.post('/', (req, res, next) => {
 	if (!req.user) {
