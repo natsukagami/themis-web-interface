@@ -21,6 +21,24 @@ class Log {
 		const res = lines.slice(4);
 		const details = [];
 		for (let i = 0; i + 1 < res.length; i += 3) {
+			if (res[i + 1] === 'Chạy quá thời gian') {
+				details.push({
+					id: res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[1],
+					score: Number(res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[2]),
+					time: 0,
+					verdict: res[i + 1]
+				});	
+				--i; continue;
+			}
+			if (res[i + 1] === 'Chạy sinh lỗi') {
+				details.push({
+					id: res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[1],
+					score: Number(res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[2]),
+					time: 0,
+					verdict: res[i + 1] + ': ' + res[i + 2]
+				});
+				continue;
+			}
 			details.push({
 				id: res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[1],
 				score: Number(res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[2]),
@@ -45,7 +63,6 @@ const Logs = { };
 
 function getLog(user, problem, ext, callback) {
 	if (!Logs[user]) Logs[user] = {};
-	if (Logs[user][problem + ext] !== undefined) return callback(Logs[user][problem + ext]);
 	fs.stat(Log.filename(user, problem, ext), (err, stat) => {
 		if (err) return callback(null);
 		if (Logs[user][problem + ext] === undefined || Logs[user][problem + ext].created.getTime() < stat.mtime.getTime()) {

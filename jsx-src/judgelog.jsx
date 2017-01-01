@@ -32,7 +32,7 @@ class JudgeLog extends React.Component {
 	render() {
 		if (this.props.verdict === '')
 			return <bs.Image responsive src='/public/img/giphy.gif' height='16' width='16'/>;
-		else return <span>{this.props.verdict}</span>;
+		else return <span style={{fontSize: '80%'}}>{this.props.verdict}</span>;
 	}
 }
 JudgeLog.propTypes = {
