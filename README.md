@@ -23,6 +23,16 @@ When the module installation finishes you can start the server anytime with:
 npm start
 ```
 
+## Configuration
+The most basic configurations are available in `config.js`, which includes:
+- Contest name
+
+Accounts are automatically parsed from `data\account.xml` (I know, WTF, but it keeps backwards-compability with the old web server. Furthermore, it supports editing from Excel.)
+
+Themis' online submitting directory should be changed to `data\submit`. There's currently no way to change that (there will be in the future).
+
+Any public files should be put into `data\files` directory. It will automatically be cached into the server to avoid LFI attacks.
+
 ## Building
 For best compatibility with my own build scripts I recommend using [yarn](https://yarnpkg.com) over npm. Currently the build scripts should work fine with npm however this is not promised in the future.
 
