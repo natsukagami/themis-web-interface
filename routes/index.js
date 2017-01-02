@@ -12,6 +12,7 @@ router.use((req, res, next) => {
 });
 
 router.use('/submit', require('./submit'));
+router.use('/files', require('./files'));
 router.use('/change-password', require('./changePassword'));
 
 router.get('/logout', (req, res) => {

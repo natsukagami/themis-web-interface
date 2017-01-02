@@ -3,6 +3,7 @@ import { Label, Badge, Button, Glyphicon, Form, FormControl } from 'react-bootst
 const Submission = require('../controls/submission');
 
 const JudgeLog = require('./judgelog.jsx');
+const FileServer = require('./file-server.jsx');
 
 /**
  * SaveStatus: Displays the save status of a submission
@@ -185,7 +186,7 @@ UploadSubmission.propTypes = {
  */
 class LeftMenu extends React.Component {
 	render() {
-		return <div className='affix' style={{width: '20%'}}>
+		return <div className='affix' style={{width: '20%', maxHeight: '100%', overflowY: 'auto'}}>
 			<h4>Các bài nộp</h4>
 			<div className='list-group' style={{fontSize: '80%'}}>
 				{this.props.submissions.map((sub, id) => <LeftMenuItem
@@ -204,6 +205,8 @@ class LeftMenu extends React.Component {
 			<AddSubmission onAdd={this.props.onAdd}/>
 			<hr/>
 			<UploadSubmission onAdd={this.props.onAdd}/>
+			<hr/>
+			<FileServer/>
 		</div>;
 	}
 }
