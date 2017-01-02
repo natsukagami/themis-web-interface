@@ -38,7 +38,7 @@ class FileServer extends React.Component {
 	render() {
 		return <div>
 			<h4>
-				Các tệp
+				Tải xuống
 				<span className='pull-right'><Button bsSize='xs' bsStyle='info' onClick={() => this.onRefresh()} disabled={this.state.disableRefresh}>
 					<Glyphicon glyph='refresh'/>
 				</Button></span>
