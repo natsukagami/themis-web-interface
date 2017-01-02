@@ -1,2 +1,0 @@
-D:\Projects\themis-web-interface\obj\Debug\themis-web-interface.njsprojResolveAssemblyReference.cache
-D:\Projects\themis-web-interface\bin\Microsoft.NodejsTools.WebRole.dll

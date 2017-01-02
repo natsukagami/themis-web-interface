@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/bd3b7be34a091e7d6a82e4dc4129569e29a7ba4f/pug/index.d.ts",
-    "raw": "registry:dt/pug#2.0.0-beta6+20161029155106",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/bd3b7be34a091e7d6a82e4dc4129569e29a7ba4f/pug/index.d.ts"
-  }
-}
