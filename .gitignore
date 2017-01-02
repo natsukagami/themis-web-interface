@@ -1,3 +1,7 @@
+# Distributed files
+data/files/*
+!data/files/readme.md
+
 # Distributed
 dist
 

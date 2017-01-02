@@ -2,6 +2,7 @@ import React from 'react';
 import Ace from 'react-ace';
 const Submission = require('../controls/submission');
 
+// TODO: How to reduce size of code by removing this but retain C++ functionality?
 import 'brace';
 
 require('brace/mode/c_cpp');

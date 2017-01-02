@@ -3,6 +3,10 @@ import { Image } from 'react-bootstrap';
 const path = require('path');
 const axios = require('axios');
 
+/**
+ * Serves as the displaying badge to the right of the submission list.
+ * However also serves as the main log receiver.
+ */
 class JudgeLog extends React.Component {
 	constructor() {
 		super();

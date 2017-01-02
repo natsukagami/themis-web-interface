@@ -23,7 +23,6 @@ SaveStatus.propTypes = {
 
 /**
  * LeftMenuItem: Displays the submission as a row on the left menu.
- * TODO: Click to view submission.
  */
 class LeftMenuItem extends React.Component {
 	handleDelete() {
@@ -61,6 +60,9 @@ LeftMenuItem.defaultProps = {
 	verdict: ''
 };
 
+/**
+ * The inline form to add a submission by providing a name and extension
+ */
 class AddSubmission extends React.Component {
 	constructor() {
 		super();
@@ -76,6 +78,7 @@ class AddSubmission extends React.Component {
 		this.setState({ ext: value });
 	}
 	add() {
+		if (this.state.filename === '') return false; // Don't allow untitled files
 		let sub = new Submission(Object.assign({}, this.state));
 		this.setState({ filename: '' });
 		this.props.onAdd(sub);
@@ -124,9 +127,10 @@ class UploadSubmission extends React.Component {
 		this.state = { file: null, uploading: false };
 	}
 	fileChange(file) {
-		return this.setState({ file: file });
+		return this.setState({ file: (file ? file : null) });
 	}
 	add() {
+		if (this.state.file === null) return false; // Don't allow null file uploads
 		const file = this.state.file;
 		const filepath = this.state.file.name;
 		const extName = require('path').extname(filepath);

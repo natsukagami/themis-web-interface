@@ -13,7 +13,6 @@ const axios = require('axios');
 class Main extends React.Component {
 	constructor() {
 		super();
-		// TODO: Dynamic state requests
 		if (localStorage.getItem('username') !== window.username) {
 			this.state = {
 				submissions: [],
