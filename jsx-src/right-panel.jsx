@@ -1,5 +1,5 @@
-const React = require('react');
-const bs = require('react-bootstrap');
+import React from 'react';
+import { Badge, Button } from 'react-bootstrap';
 
 class TestItem extends React.Component {
 	render() {
@@ -9,7 +9,7 @@ class TestItem extends React.Component {
 			title={this.props.verdict}
 		>
 			{this.props.id}
-			<bs.Badge>{this.props.score}</bs.Badge>
+			<Badge>{this.props.score}</Badge>
 		</a>;
 	}
 }
@@ -71,12 +71,12 @@ class SubmitButton extends React.Component {
 		});
 	}
 	render() {
-		return <bs.Button
+		return <Button
 			bsStyle='success'
 			className='form-control'
 			disabled={this.state.disabled}
 			onClick={() => this.onClick()}
-		>Nộp bài</bs.Button>;
+		>Nộp bài</Button>;
 	}
 }
 SubmitButton.propTypes = {

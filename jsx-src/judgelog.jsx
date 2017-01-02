@@ -1,21 +1,23 @@
-const React = require('react');
-const bs = require('react-bootstrap');
-const rq = require('request-json');
+import React from 'react';
+import { Image } from 'react-bootstrap';
 const path = require('path');
+const axios = require('axios');
 
 class JudgeLog extends React.Component {
 	constructor() {
 		super();
-		this.client = rq.createClient(location.protocol + '//' + location.host);
 		this.lastUpdated = new Date(0);
 		this.timer = setInterval(() => {
-			this.client.post('log', {
+			axios.post('log', {
 				user: window.username,
 				problem: path.basename(this.props.name, path.extname(this.props.name)),
 				ext: path.extname(this.props.name)
-			}, (err, res, body) => {
-				if (err || res.statusCode !== 200) return;
-				this.handleUpdate(body);
+			})
+			.then(({ status, data }) => {
+				if (status !== 200) return Promise.reject(new Error());
+				this.handleUpdate(data);
+			})
+			.catch(() => { // Pass
 			});
 		}, 5000); // every 5 seconds
 	}
@@ -31,7 +33,7 @@ class JudgeLog extends React.Component {
 	}
 	render() {
 		if (this.props.verdict === '')
-			return <bs.Image responsive src='/public/img/giphy.gif' height='16' width='16'/>;
+			return <Image responsive src='/public/img/giphy.gif' height='16' width='16'/>;
 		else return <span style={{fontSize: '80%'}}>{this.props.verdict}</span>;
 	}
 }

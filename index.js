@@ -3,6 +3,7 @@
  * Instead for session-based data we use LokiJS, and for contests and submit logs
  * (yes we have submit logs) we have persistent NeDB for that.
  */
+const compression = require('compression');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -26,6 +27,7 @@ const PORT = global.Config.port || process.env.PORT || 8088;
 let app = express();
 
 // Parsers
+app.use(compression());
 app.use(expressLogger('dev'));
 app.use(bodyParser.urlencoded({
 	extended: false

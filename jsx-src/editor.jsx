@@ -1,9 +1,8 @@
-const React = require('react');
-const Ace = require('react-ace').default;
+import React from 'react';
+import Ace from 'react-ace';
 const Submission = require('../controls/submission');
 
-const brace = require('brace');
-window.brace = brace;
+import 'brace';
 
 require('brace/mode/c_cpp');
 require('brace/mode/pascal');

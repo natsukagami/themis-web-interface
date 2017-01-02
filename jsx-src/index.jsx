@@ -1,6 +1,6 @@
-const React = require('react');
-const reactDom = require('react-dom');
-const bs = require('react-bootstrap');
+import React from 'react';
+import reactDom from 'react-dom';
+import { Col, Row } from 'react-bootstrap';
 const Submission = require('../controls/submission');
 
 const LeftMenu = require('./left-menu.jsx');
@@ -8,7 +8,7 @@ const Editor = require('./editor.jsx');
 const RightPanel = require('./right-panel.jsx');
 const TestDetails = require('./test-details.jsx');
 
-const rq = require('request-json').createClient(location.protocol + '//' + location.host);
+const axios = require('axios');
 
 class Main extends React.Component {
 	constructor() {
@@ -84,38 +84,41 @@ class Main extends React.Component {
 	 */
 	submit(callback) {
 		const curSub = this.state.submissions[this.state.selected];
-		rq.post('submit', {
+		axios.post('/submit', {
 			problem: curSub.filename,
 			ext: { 'C++': '.cpp', Pascal: '.pas', Python: '.py' }[curSub.ext],
 			content: curSub.content
-		}, (err, res, body) => {
-			if (err || res.statusCode !== 200 || body !== true)
-				return alert('Lỗi nộp bài, hãy thử lại!'), callback();
+		})
+		.then(({ status, data }) => {
+			if (status !== 200 || data !== true) return Promise.reject(new Error('Submit failed'));
 			const newSub = this.state.submissions.slice();
 			newSub[this.state.selected].saveStatus = 'submitted';
 			newSub[this.state.selected].result = {};
 			return this.setState({ submissions: newSub });
+		})
+		.catch(() => {
+			return alert('Lỗi nộp bài, hãy thử lại!'), callback();
 		});
 	}
 	render() {
 		let centerRight = null;
 		if (this.state.selected !== null && this.state.selected < this.state.submissions.length) {
-			centerRight = <div><bs.Col sm={7}>
+			centerRight = <div><Col sm={7}>
 				<Editor submission={this.state.submissions[this.state.selected]} onChange={(value) => this.codeEdit(value)}/>
 				<hr/>
 				<TestDetails results={this.state.submissions[this.state.selected].result.details} />
-			</bs.Col>
-			<bs.Col sm={2}>
+			</Col>
+			<Col sm={2}>
 				<RightPanel
 					verdict={this.state.submissions[this.state.selected].result.verdict}
 					results={this.state.submissions[this.state.selected].result.details}
 					saveStatus={this.state.submissions[this.state.selected].saveStatus}
 					onSubmit={cb => this.submit(cb)}
 				/>
-			</bs.Col></div>;
+			</Col></div>;
 		}
-		return <bs.Row>
-			<bs.Col sm={3}>
+		return <Row>
+			<Col sm={3}>
 				<LeftMenu
 					submissions={this.state.submissions}
 					selected={this.state.selected}
@@ -124,9 +127,9 @@ class Main extends React.Component {
 					onAdd={(sub) => this.addSub(sub)}
 					onUpdate={(id, results) => this.updateResults(id, results)}
 				/>
-			</bs.Col>
+			</Col>
 			{centerRight}
-		</bs.Row>;
+		</Row>;
 	}
 }
 

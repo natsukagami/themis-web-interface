@@ -1,16 +1,16 @@
-const React = require('react');
-const bs = require('react-bootstrap');
+import React from 'react';
+import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
 class TestItem extends React.Component {
 	render() {
-		return <bs.ListGroupItem id={`test-${this.props.id}`}>
+		return <ListGroupItem id={`test-${this.props.id}`}>
 			<div>
 				<span>{this.props.id}: <b>{Math.round(this.props.score * 1000) / 1000}</b></span>
 				<span className='pull-right'>Thời gian chạy: {Math.round(this.props.time * 1000) / 1000} giây</span>
 			</div>
 			<hr/>
 			<pre style={{whiteSpace: 'pre-wrap'}}>{this.props.verdict}</pre>
-		</bs.ListGroupItem>;
+		</ListGroupItem>;
 	}
 }
 TestItem.propTypes = {
@@ -30,11 +30,11 @@ class TestDetails extends React.Component {
 			</div>;
 		return <div>
 			<h4>Kết quả chấm</h4>
-			<bs.ListGroup>
+			<ListGroup>
 				{this.props.results.map(test => {
 					return <TestItem {...test} key={test.id} />;
 				})}
-			</bs.ListGroup>
+			</ListGroup>
 		</div>;
 	}
 }

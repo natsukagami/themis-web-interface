@@ -1,5 +1,5 @@
-const React = require('react');
-const bs = require('react-bootstrap');
+import React from 'react';
+import { Label, Badge, Button, Glyphicon, Form, FormControl } from 'react-bootstrap';
 const Submission = require('../controls/submission');
 
 const JudgeLog = require('./judgelog.jsx');
@@ -14,8 +14,8 @@ class SaveStatus extends React.Component {
 	}
 }
 SaveStatus.stateBoard = {
-	'submitted': <bs.Label bsStyle={'success'}>✓Đã nộp</bs.Label>,
-	'saved': <bs.Label bsStyle={'info'}>✓Đã lưu</bs.Label>
+	'submitted': <Label bsStyle={'success'}>✓Đã nộp</Label>,
+	'saved': <Label bsStyle={'info'}>✓Đã lưu</Label>
 };
 SaveStatus.propTypes = {
 	status: React.PropTypes.oneOf(['saved', 'submitted']).isRequired
@@ -34,11 +34,11 @@ class LeftMenuItem extends React.Component {
 	render() {
 		let x = '';
 		if (this.props.saveStatus === 'submitted' || this.props.verdict !== '')
-			x = <bs.Badge><JudgeLog name={this.props.name} verdict={this.props.verdict} updateResults={this.props.onUpdate}/></bs.Badge>;
+			x = <Badge><JudgeLog name={this.props.name} verdict={this.props.verdict} updateResults={this.props.onUpdate}/></Badge>;
 		return <div
 			className={'list-group-item' + (this.props.active ? ' active' : '')}
 		>
-			<bs.Button bsStyle='danger' bsSize='xs' onClick={() => this.handleDelete()}><bs.Glyphicon glyph='remove'/></bs.Button>
+			<Button bsStyle='danger' bsSize='xs' onClick={() => this.handleDelete()}><Glyphicon glyph='remove'/></Button>
 			<a href='#' onClick={() => this.props.onSelect(this.props.id)}>
 				{' ' + this.props.name + ' '}
 			</a>
@@ -81,8 +81,8 @@ class AddSubmission extends React.Component {
 		this.props.onAdd(sub);
 	}
 	render() {
-		return <bs.Form inline={true}>
-			<bs.FormControl
+		return <Form inline={true}>
+			<FormControl
 				type='text'
 				placeholder='Tên bài'
 				value={this.state.filename}
@@ -91,7 +91,7 @@ class AddSubmission extends React.Component {
 				bsSize='small'
 				required
 			/>
-			<bs.FormControl
+			<FormControl
 				componentClass='select'
 				style={{width: '35%', marginLeft: '5px'}}
 				bsSize='small'
@@ -101,17 +101,17 @@ class AddSubmission extends React.Component {
 				{['C++', 'Pascal', 'Python'].map(ext => {
 					return <option value={ext} key={ext}>{ext}</option>;
 				})}
-			</bs.FormControl>
-			<bs.Button
+			</FormControl>
+			<Button
 				type='submit'
 				bsStyle='success'
 				bsSize='small'
 				style={{width: '15%', marginLeft: '5px'}}
 				onClick={() => this.add()}
 			>
-				<bs.Glyphicon glyph='plus'/>
-			</bs.Button>
-		</bs.Form>;
+				<Glyphicon glyph='plus'/>
+			</Button>
+		</Form>;
 	}
 }
 AddSubmission.propTypes = {
@@ -149,8 +149,8 @@ class UploadSubmission extends React.Component {
 		});
 	}
 	render() {
-		return <bs.Form inline>
-			<bs.FormControl
+		return <Form inline>
+			<FormControl
 				type='file'
 				placeholder='Tải lên bài'
 				onChange={ e => this.fileChange(e.target.files[0]) }
@@ -159,7 +159,7 @@ class UploadSubmission extends React.Component {
 				style={{width: '82%', display: 'inline'}}
 				bsSize='small'
 			/>
-			<bs.Button
+			<Button
 				type='submit'
 				bsSize='small'
 				style={{width: '15%', marginLeft: '5px'}}
@@ -167,9 +167,9 @@ class UploadSubmission extends React.Component {
 				disabled={this.state.uploading}
 				onClick={() => this.add()}
 			>
-				<bs.Glyphicon glyph='upload'/>
-			</bs.Button>
-		</bs.Form>;
+				<Glyphicon glyph='upload'/>
+			</Button>
+		</Form>;
 	}
 }
 UploadSubmission.propTypes = {
