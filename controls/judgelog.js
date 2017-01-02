@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const rEs = require('escape-string-regexp');
 const debug = require('debug')('themis:judgelog');
+const Scoring = require('./scoring');
 
 const logsPath = path.join(process.cwd(), 'data', 'submit', 'logs');
 
@@ -27,7 +28,7 @@ class Log {
 					score: Number(res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[2]),
 					time: 0,
 					verdict: res[i + 1]
-				});	
+				});
 				--i; continue;
 			}
 			if (res[i + 1] === 'Chạy sinh lỗi') {
@@ -56,6 +57,7 @@ class Log {
 		this.user = user;
 		this.problem = problem;
 		this.content = Log.__parse(user, problem, content);
+		Scoring.add(user, problem, this.content.verdict);
 	}
 }
 

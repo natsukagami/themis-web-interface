@@ -12,6 +12,8 @@ html
 			.container
 				.navbar-header
 					a.navbar-brand.navbar-left(href='/')=global.Config.contestName
+					span.navbar-brand.navbar-left=' >> '
+					a.navbar-brand.navbar-left(href='/scoreboard') Bảng xếp hạng
 				if user
 					.navbar-text.navbar-right 
 						span 

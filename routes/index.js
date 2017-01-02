@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+router.use('/scoreboard', require('./scoreboard'));
+
 router.use('/login', require('./login'));
 router.use('/log', require('./log'));
 
