@@ -86,7 +86,7 @@ SubmitButton.propTypes = {
 
 class RightPanel extends React.Component {
 	render() {
-		return <div data-spy='affix' style={{width: '17%', overflowY: 'auto', maxHeight: '90%'}}>
+		return <div data-spy='affix' style={{width: 'inherit', overflowY: 'auto', maxHeight: '90%'}}>
 			<SubmitButton saveStatus={this.props.saveStatus} onSubmit={this.props.onSubmit}/>
 			<hr/>
 			<LastSubmit verdict={this.props.verdict} results={this.props.results}/>
