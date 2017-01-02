@@ -54,3 +54,4 @@ Please follow the ESLint restrictions included with the source code. I am glad t
  - [x] Web code editor.
  - [ ] More lightweight JS file.
  - [ ] Auto update.
+ - [x] Scoreboard.
