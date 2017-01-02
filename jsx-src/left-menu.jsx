@@ -183,7 +183,7 @@ class LeftMenu extends React.Component {
 	render() {
 		return <div className='affix' style={{width: '20%'}}>
 			<h4>Các bài nộp</h4>
-			<div className='list-group'>
+			<div className='list-group' style={{fontSize: '80%'}}>
 				{this.props.submissions.map((sub, id) => <LeftMenuItem
 					id={id}
 					name={sub.name}

@@ -9,7 +9,7 @@ class TestItem extends React.Component {
 				<span className='pull-right'>Thời gian chạy: {Math.round(this.props.time * 1000) / 1000} giây</span>
 			</div>
 			<hr/>
-			<pre>{this.props.verdict}</pre>
+			<pre style={{whiteSpace: 'pre-wrap'}}>{this.props.verdict}</pre>
 		</bs.ListGroupItem>;
 	}
 }
