@@ -67,7 +67,7 @@ gulp.task('pre-build', ['verify-npm'], done => {
 	});
 });
 
-gulp.task('build-copy-files', ['pre-build'], () => {
+gulp.task('build-copy-files', ['pre-build', 'render-jsx'], () => {
 	return vfs.src([
 		'./**/*',
 		'!./dist',
