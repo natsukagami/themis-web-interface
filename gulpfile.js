@@ -101,7 +101,7 @@ gulp.task('verify-npm', () => {
 gulp.task('zip', ['clean-yarn-files'], () => {
 	return gulp.src('./.build/**/*')
 	.pipe(gulpDebug())
-	.pipe(require('gulp-zip')(`${process.env.npm_package_name}-v${process.env.npm_package_version}.zip`))
+	.pipe(require('gulp-zip')(`${process.env.npm_package_name}_v${process.env.npm_package_version}_${require('moment')().format('YYYYMMDD-HHmmss')}.zip`))
 	.pipe(gulp.dest('./dist'));
 });
 
