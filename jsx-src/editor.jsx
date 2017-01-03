@@ -1,5 +1,6 @@
 import React from 'react';
 import Ace from 'react-ace';
+import SubmitButton from './submit-button.jsx';
 const Submission = require('../controls/submission');
 
 // TODO: How to reduce size of code by removing this but retain C++ functionality?
@@ -39,14 +40,18 @@ Editor.propTypes = {
 class EditorBox extends React.Component {
 	render() {
 		return <div>
-			<h4>Soạn code</h4>
+			<h4>
+				Soạn code
+				<span className='pull-right' style={{ paddingBottom: 5 }}><SubmitButton saveStatus={this.props.submission.saveStatus} onSubmit={this.props.onSubmit}/></span>
+			</h4>
 			<Editor submission={this.props.submission} onChange={this.props.onChange}/>
 		</div>;
 	}
 }
 EditorBox.propTypes = {
 	submission: React.PropTypes.instanceOf(Submission).isRequired,
-	onChange: React.PropTypes.func.isRequired
+	onChange: React.PropTypes.func.isRequired,
+	onSubmit: React.PropTypes.func.isRequired
 };
 
 module.exports = EditorBox;

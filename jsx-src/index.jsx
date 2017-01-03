@@ -5,7 +5,6 @@ const Submission = require('../controls/submission');
 
 const LeftMenu = require('./left-menu.jsx');
 const Editor = require('./editor.jsx');
-const RightPanel = require('./right-panel.jsx');
 const TestDetails = require('./test-details.jsx');
 
 const axios = require('axios');
@@ -102,19 +101,17 @@ class Main extends React.Component {
 	render() {
 		let centerRight = null;
 		if (this.state.selected !== null && this.state.selected < this.state.submissions.length) {
-			centerRight = <div><Col sm={7}>
-				<Editor submission={this.state.submissions[this.state.selected]} onChange={(value) => this.codeEdit(value)}/>
-				<hr/>
-				<TestDetails results={this.state.submissions[this.state.selected].result.details} />
-			</Col>
-			<Col sm={2}>
-				<RightPanel
-					verdict={this.state.submissions[this.state.selected].result.verdict}
-					results={this.state.submissions[this.state.selected].result.details}
-					saveStatus={this.state.submissions[this.state.selected].saveStatus}
-					onSubmit={cb => this.submit(cb)}
-				/>
-			</Col></div>;
+			centerRight = <div>
+				<Col sm={9}>
+					<Editor 
+						submission={this.state.submissions[this.state.selected]} 
+						onChange={(value) => this.codeEdit(value)}
+						onSubmit={cb => this.submit(cb)}
+					/>
+					<hr/>
+					<TestDetails results={this.state.submissions[this.state.selected].result.details} />
+				</Col>
+			</div>;
 		}
 		return <Row>
 			<Col sm={3}>

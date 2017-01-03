@@ -1,5 +1,6 @@
 import React from 'react';
 import { Label, Badge, Button, Glyphicon, Form, FormControl } from 'react-bootstrap';
+import Dimensions from 'react-dimensions';
 const Submission = require('../controls/submission');
 
 const JudgeLog = require('./judgelog.jsx');
@@ -186,7 +187,7 @@ UploadSubmission.propTypes = {
  */
 class LeftMenu extends React.Component {
 	render() {
-		return <div className='affix' style={{width: '20%', maxHeight: '100%', overflowY: 'auto'}}>
+		return <div className='affix' style={{width: this.props.containerWidth, maxHeight: '100%', overflowY: 'auto'}}>
 			<h4>Các bài nộp</h4>
 			<div className='list-group' style={{fontSize: '80%'}}>
 				{this.props.submissions.map((sub, id) => <LeftMenuItem
@@ -219,4 +220,4 @@ LeftMenu.propTypes = {
 	onUpdate: React.PropTypes.func.isRequired
 };
 
-module.exports = LeftMenu;
+module.exports = Dimensions()(LeftMenu);
