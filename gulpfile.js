@@ -6,10 +6,12 @@ const browserify = require('browserify');
 const envify = require('envify');
 const watchify = require('watchify');
 const debug = require('debug')('gulp');
+const gulpDebug = require('gulp-debug');
+const vfs = require('vinyl-fs');
+const yarn = require('gulp-yarn');
+const clean = require('gulp-clean');
 
-gulp.task('default', ['build-web']);
-
-gulp.task('build-web', ['render-jsx']);
+gulp.task('default', ['build']);
 
 gulp.task('render-jsx', ['render-jsx-index']);
 
@@ -53,4 +55,57 @@ gulp.task('watch', () => {
 	.pipe(buffer())
 	.pipe(gulp.dest('public/js'));
 	a.on('log', debug);
+});
+
+gulp.task('build', ['pre-build', 'build-copy-files', 'yarn-build', 'clean-yarn-files', 'zip', 'post-build']);
+
+gulp.task('pre-build', ['verify-npm'], done => {
+	require('fs').stat('.build', err => {
+		if (err) return done();
+		debug('Cleaning up old build');
+		vfs.src('./.build', './.build/**/*').pipe(clean()).on('end', done);
+	});
+});
+
+gulp.task('build-copy-files', ['pre-build'], () => {
+	return vfs.src([
+		'./**/*',
+		'!./dist',
+		'!./dist/**/*',
+		'!./jsx-src',
+		'!./jsx-src/**/*',
+		'!./node_modules',
+		'!./node_modules/**/*',
+		'!./.*',
+		'!./.*/**/*',
+		'!./gulpfile.js'
+	], { follow: true }).pipe(gulpDebug()).pipe(gulp.dest('./.build'));
+});
+
+gulp.task('yarn-build', ['build-copy-files'], () => {
+	return gulp.src(['./.build/package.json'])
+	.pipe(gulp.dest('./.build'))
+	.pipe(yarn({ production: true }));
+});
+
+gulp.task('clean-yarn-files', ['yarn-build'], () => {
+	return gulp.src(['./.build/package.json', './.build/yarn.lock'], { read: false })
+	.pipe(clean());
+});
+
+gulp.task('verify-npm', () => {
+	if (process.env.npm_package_version === undefined)
+		throw new Error('Script must be run from yarn / npm!');
+});
+
+gulp.task('zip', ['clean-yarn-files'], () => {
+	return gulp.src('./.build/**/*')
+	.pipe(gulpDebug())
+	.pipe(require('gulp-zip')(`${process.env.npm_package_name}-v${process.env.npm_package_version}.zip`))
+	.pipe(gulp.dest('./dist'));
+});
+
+gulp.task('post-build', ['zip'], () => {
+	return vfs.src(['./.build'], { read: false })
+	.pipe(clean());
 });

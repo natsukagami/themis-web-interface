@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env DEBUG=themis:* node index.js",
-    "build": "cross-env NODE_ENV=production gulp",
+    "build-jsx": "cross-env NODE_ENV=production DEBUG=gulp* gulp render-jsx",
+    "build": "cross-env NODE_ENV=production DEBUG=gulp* gulp build",
     "watch": "cross-env DEBUG=gulp gulp watch"
   },
   "repository": {
@@ -53,12 +54,17 @@
     "browserify": "^13.1.1",
     "envify": "^4.0.0",
     "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-debug": "^3.0.0",
     "gulp-uglify": "^2.0.0",
+    "gulp-yarn": "^0.0.5",
+    "gulp-zip": "^3.2.0",
     "react": "^15.4.1",
     "react-ace": "^4.1.0",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
     "vinyl-buffer": "^1.0.0",
+    "vinyl-fs": "^2.4.4",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.8.0"
   }
