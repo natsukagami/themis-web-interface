@@ -29,7 +29,9 @@ let app = express();
 // Parsers
 app.use(require('serve-favicon')(path.join(process.cwd(), 'public', 'img', 'favicon.ico')));
 app.use(compression());
-app.use(expressLogger('dev'));
+app.use(expressLogger('dev', {
+	skip: req => { return req.baseUrl === '/log'; }
+}));
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
