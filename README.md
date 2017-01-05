@@ -1,4 +1,6 @@
 # themis-web-interface
+[![Build Status](https://travis-ci.org/natsukagami/themis-web-interface.svg?branch=master)](https://travis-ci.org/natsukagami/themis-web-interface)
+
 A web interface for Themis, written in Node.js
 
 ## Running 
