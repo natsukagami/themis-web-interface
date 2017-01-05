@@ -89,7 +89,7 @@ gulp.task('yarn-build', ['build-copy-files'], () => {
 });
 
 gulp.task('clean-yarn-files', ['yarn-build'], () => {
-	return gulp.src(['./.build/package.json', './.build/yarn.lock'], { read: false })
+	return gulp.src(['./.build/package.json', './.build/yarn.lock', './.build/gulp_copydeps.js'], { read: false })
 	.pipe(clean());
 });
 
@@ -108,14 +108,4 @@ gulp.task('zip', ['clean-yarn-files'], () => {
 gulp.task('post-build', ['zip'], () => {
 	return vfs.src(['./.build'], { read: false })
 	.pipe(clean());
-});
-
-gulp.task('copy-deps', () => {
-	const merge = require('merge-stream');
-	return merge(
-		vfs.src('./node_modules/bootstrap/dist/css/**/*.min.*').pipe(gulp.dest('./public/css/bootstrap')),
-		vfs.src('./node_modules/bootstrap/dist/fonts/**/*').pipe(gulp.dest('./public/css/fonts')),
-		vfs.src('./node_modules/bootstrap/dist/js/**/*.min.*').pipe(gulp.dest('./public/js/bootstrap')),
-		vfs.src('./node_modules/jquery/dist/**/*.min.*').pipe(gulp.dest('./public/js/jquery'))
-	);
 });
