@@ -38,7 +38,9 @@ For best compatibility with my own build scripts I recommend using [yarn](https:
 
 First run `yarn` (`npm install` with npm) to install all build modules. This could take some time, as there are lots of modules required.
 
-Open a terminal within the source code's root folder and type `yarn build` (`npm build` with npm) to build the Browserify files.
+Open a terminal within the source code's root folder and type `yarn build` (`npm build` with npm) to build the `.zip` package. It will be available in the `dist` folder.
+
+Alternatively `yarn build-jsx` (`npm run build-jsx`) can be used to only build the JSX files with Browserify.
 
 ## Contributing
 Please follow the ESLint restrictions included with the source code. I am glad to look at any problem you face and will kindly respond to all legitimate PRs so do not hesitate. Feature requests are also welcomed, however if you only come up with the idea and no details or any intent to code / help me out with its implementation, please go away.

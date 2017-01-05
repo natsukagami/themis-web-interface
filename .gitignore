@@ -5,9 +5,6 @@ data/files/*
 # Distributed
 dist
 
-# Yarn lockfile
-yarn.lock
-
 # Databases files
 data/*.db
 data/submit/*.cpp
