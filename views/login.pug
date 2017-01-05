@@ -4,6 +4,8 @@ block content
 	.row: .col-md-6.col-md-push-3
 		h1.text-center Đăng nhập 
 		form.form(method='POST' action='/login')
+			if failed
+				.alert.alert-danger(role='alert') Tên đăng nhập hoặc mật khẩu không đúng!
 			.form-group
 				label(for='username') Tên đăng nhập
 				input.form-control(type='text' name='username' placeholder='Tên đăng nhập của bạn' required)
