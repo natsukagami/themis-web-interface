@@ -5,6 +5,7 @@ const debug = require('debug')('themis:judgelog');
 const Scoring = require('./scoring');
 
 const logsPath = path.join(process.cwd(), 'data', 'submit', 'logs');
+const UserLog = require('./userlog');
 
 class Log {
 	static filename(user, problem, ext) {
@@ -58,6 +59,7 @@ class Log {
 		this.problem = problem;
 		this.content = Log.__parse(user, problem, content);
 		Scoring.add(user, problem, this.content.verdict);
+		UserLog.addScore(user, problem, this.content);
 	}
 }
 

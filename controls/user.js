@@ -5,6 +5,8 @@ const fs = require('fs');
 const debug = require('debug')('themis:controls:user');
 const eventEmitter = require('events');
 
+const UserLog = require('./userlog');
+
 let xmlFile = null;
 
 /**
@@ -60,6 +62,7 @@ class User {
 		 * @type {XMLRow}
 		 */
 		this.row = row;
+		UserLog.addUser(this.username);
 		debug(`User ${this.name} added.`);
 	}
 	save(cb = err => { if (err) debug(err); }) {

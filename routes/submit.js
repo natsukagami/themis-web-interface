@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const Log = require('../controls/judgelog');
+const UserLog = require('../controls/userlog');
 
 const submitPath = path.join(process.cwd(), 'data', 'submit');
 
@@ -32,6 +33,8 @@ router.post('/', rateLimiter.prevent, (req, res, next) => {
 			details: []
 		}
 	});
+	UserLog.addScore(req.user.username, q.problem, { });
+	UserLog.addSubmit(req.user.username, `0[${req.user.username}][${q.problem}]${q.ext}`, q.content);
 	fs.writeFile(path.join(submitPath, `0[${req.user.username}][${q.problem}]${q.ext}`), q.content, err => {
 		if (err) return next(err);
 		res.json(true);
