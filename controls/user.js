@@ -3,8 +3,30 @@ const path = require('path');
 const md5 = require('md5');
 const fs = require('fs');
 const debug = require('debug')('themis:controls:user');
+const eventEmitter = require('events');
 
 let xmlFile = null;
+
+/**
+ * The XML Writer object saves the XML file on request every second
+ * @type {eventEmitter}
+ */
+const xmlWriter = new eventEmitter();
+xmlWriter.flag = false;
+xmlWriter.build = function() {
+	if (!this.flag) return this.emit('build-finish');
+	debug('account.xml being updated.');
+	this.flag = false;
+	const build = new xml.Builder();
+	this.emit('build-start');
+	return fs.writeFile('data/account.xml', build.buildObject(xmlFile), () => {
+		this.emit('build-finish');
+	});
+};
+xmlWriter.on('build-finish', () => {
+	setTimeout(() => { xmlWriter.build(); }, 1000);
+});
+xmlWriter.build();
 
 /**
  * Stores user information
@@ -45,8 +67,8 @@ class User {
 		this.row.Cell[2].Data[0]._ = this.password;
 		this.row.Cell[3].Data[0]._ = this.name;
 		this.row.Cell[4].Data[0]._ = '1';
-		const build = new xml.Builder();
-		return fs.writeFile('data/account.xml', build.buildObject(xmlFile), cb);
+		xmlWriter.flag = true;
+		xmlWriter.once('build-start', cb);
 	}
 }
 /**
@@ -89,5 +111,105 @@ User.Users = {};
 User.find = function (username) {
 	return (username in User.Users ? User.Users[username] : null);
 };
+
+/**
+ * Adds an user to the XML file
+ * @param {string}   username The new user's username
+ * @param {string}   password The new user's password
+ * @param {string}   name     The new user's display name
+ * @param {Function} callback
+ */
+User.add = function({
+	username,
+	password,
+	name
+}, callback) {
+	if (User.Users[username] !== undefined) return callback(new Error('Username already exists'));
+	const Rows = xmlFile.Workbook.Worksheet[0].Table[0].Row;
+	const newRow = {
+		'$': {
+			'ss:AutoFitHeight': '0'
+		},
+		Cell: [
+			{
+				'$': {
+					'ss:StyleID': 's68'
+				},
+				Data: [
+					{
+						_: '0',
+						'$': {
+							'ss:Type': 'Number'
+						}
+					}
+				]
+			}, {
+				'$': {
+					'ss:StyleID': 's68'
+				},
+				Data: [
+					{
+						_: username,
+						'$': {
+							'ss:Type': 'String'
+						}
+					}
+				]
+			}, {
+				'$': {
+					'ss:StyleID': 's68'
+				},
+				Data: [
+					{
+						_: md5(password),
+						'$': {
+							'ss:Type': 'String'
+						}
+					}
+				]
+			}, {
+				'$': {
+					'ss:StyleID': 's68'
+				},
+				Data: [
+					{
+						_: name,
+						'$': {
+							'ss:Type': 'String'
+						}
+					}
+				]
+			}, {
+				'$': {
+					'ss:StyleID': 's68'
+				},
+				Data: [
+					{
+						_: '1',
+						'$': {
+							'ss:Type': 'Number'
+						}
+					}
+				]
+			}, {
+				'$': {
+					'ss:StyleID': 's68'
+				}
+			}, {
+				'$': {
+					'ss:StyleID': 's68'
+				}
+			}, {
+				'$': {
+					'ss:StyleID': 's68'
+				}
+			}
+		]
+	};
+	Rows[Object.keys(User.Users).length + 1] = newRow;
+	User.Users[username] = new User(username, md5(password), name, newRow);
+	User.Users[username].save(() => { callback(null); });
+};
+
 
 module.exports = User;
