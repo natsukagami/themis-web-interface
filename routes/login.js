@@ -10,7 +10,8 @@ router.use((req, res, next) => {
 router.get('/', (req, res) => {
 	res.render('login', {
 		title: 'Đăng nhập',
-		failed: req.query.failed === 'true'
+		failed: req.query.failed === 'true',
+		registerSuccessful: req.query['register-successful'] === 'true'
 	});
 });
 

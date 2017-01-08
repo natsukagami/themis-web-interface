@@ -6,6 +6,8 @@ block content
 		form.form(method='POST' action='/login')
 			if failed
 				.alert.alert-danger(role='alert') Tên đăng nhập hoặc mật khẩu không đúng!
+			if registerSuccessful
+				.alert.alert-success(role='alert') Đăng kí thành công! Bạn có thể đăng nhập.
 			.form-group
 				label(for='username') Tên đăng nhập
 				input.form-control(type='text' name='username' placeholder='Tên đăng nhập của bạn' required)
@@ -14,5 +16,5 @@ block content
 				input.form-control(type='password' name='password' placeholder='Mật khẩu' required)
 			.text-center
 				input.btn.btn-success(type='submit' value='Đăng nhập')
-					
-	
+		if !registerSuccessful && global.Config.registration.allow
+			.text-center(style='margin-top: 10px'): a(href='/register') Chưa có tài khoản?

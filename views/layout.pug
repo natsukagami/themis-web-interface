@@ -7,6 +7,8 @@ html
 		link(rel='stylesheet' type='text/css' href='/public/css/common.css')
 		script(src='/public/js/jquery/jquery.min.js')
 		script(src='/public/js/bootstrap/bootstrap.min.js')
+		if recaptcha
+			script(src='https://www.google.com/recaptcha/api.js')
 	body
 		nav.navbar.navbar-inverse.navbar-fixed-top
 			.container

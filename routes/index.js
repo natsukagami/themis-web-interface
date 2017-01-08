@@ -4,6 +4,7 @@ const router = express.Router();
 router.use('/scoreboard', require('./scoreboard'));
 
 router.use('/login', require('./login'));
+router.use('/register', require('./register'));
 router.use('/log', require('./log'));
 
 router.use((req, res, next) => {
