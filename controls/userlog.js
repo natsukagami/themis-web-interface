@@ -29,7 +29,7 @@ function addSubmit(username, filename, contents) {
 			debug(err); return; // Can't happen
 		}
 		UserLog.update({ _id: user._id }, {
-			$set: { [`submits.${filename}`]: md5(contents.replace(/\s/, '')) }
+			$set: { [`submits.${filename}`]: md5(contents.replace(/\s/g, '')) }
 		});
 	});
 }
