@@ -3,6 +3,12 @@ const router = express.Router();
 const Scoring = require('../controls/scoring');
 
 router.use((req, res, next) => {
+	if (global.Config.allowScoreboard) return next();
+	let x = new Error('Page not found'); x.status = 404;
+	next(x);
+});
+
+router.use((req, res, next) => {
 	const scoreboard = Object.keys(Scoring.scores).map(key => Object.assign({}, Scoring.scores[key], { name: key }));
 	const problems = [];
 	for (let u of scoreboard) {
