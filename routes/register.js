@@ -3,6 +3,16 @@ const router = express.Router();
 const debug = require('debug')('themis:router:register');
 const User = require('../controls/user');
 
+const rateLimiter = require('../controls/rate-limiter')({
+	// Allow only 30 registrations per day
+	freeRetries: 30,
+	minWait: 25 * 60 * 60,
+	maxWait: 25 * 60 * 60,
+	lifetime: 24 * 60 * 60
+});
+
+router.use(rateLimiter.prevent);
+
 router.use((req, res, next) => {
 	// Disable the router if registration is disabled
 	if (!global.Config.registration.allow) {

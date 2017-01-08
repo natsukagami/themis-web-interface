@@ -32,6 +32,11 @@ class JudgeLog extends React.Component {
 		this.lastUpdated = results.created;
 		this.props.updateResults(results.content);
 	}
+	componentDidUpdate() {
+		// Why not DidMount? It should get updated at least once
+		if (this.props.verdict !== '')
+			clearInterval(this.timer);
+	}
 	componentWillUnmount() {
 		clearInterval(this.timer);
 	}

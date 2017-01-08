@@ -26,11 +26,14 @@ const PORT = global.Config.port || process.env.PORT || 8088;
 
 let app = express();
 
+// Settings
+app.set('trust proxy', 1);
+
 // Parsers
 app.use(require('serve-favicon')(path.join(process.cwd(), 'public', 'img', 'favicon.ico')));
 app.use(compression());
 app.use(expressLogger('dev', {
-	skip: req => { return req.baseUrl === '/log'; }
+	skip: (req, res) => { return req.baseUrl === '/log' && res.status === 200; }
 }));
 app.use(bodyParser.urlencoded({
 	extended: false

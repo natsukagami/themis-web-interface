@@ -6,7 +6,15 @@ const Log = require('../controls/judgelog');
 
 const submitPath = path.join(process.cwd(), 'data', 'submit');
 
-router.post('/', (req, res, next) => {
+const rateLimiter = require('../controls/rate-limiter')({
+	// Allow 3 submits, then slows down
+	freeRetries: 30,
+	minWait: 2 * 60 * 60,
+	maxWait: 2 * 60 * 60,
+	lifetime: 60 * 60
+});
+
+router.post('/', rateLimiter.prevent, (req, res, next) => {
 	if (!req.user) {
 		let err = new Error('You have to login first');
 		err.code = 403;
