@@ -68,18 +68,27 @@ gulp.task('pre-build', ['verify-npm'], done => {
 });
 
 gulp.task('build-copy-files', ['pre-build', 'render-jsx'], () => {
-	return vfs.src([
-		'./**/*',
-		'!./dist',
-		'!./dist/**/*',
-		'!./jsx-src',
-		'!./jsx-src/**/*',
-		'!./node_modules',
-		'!./node_modules/**/*',
-		'!./.*',
-		'!./.*/**/*',
-		'!./gulpfile.js'
-	], { follow: true }).pipe(gulpDebug()).pipe(gulp.dest('./.build'));
+	const merge = require('merge-stream');
+	return merge(
+		vfs.src([
+			'./**/*',
+			'!./dist',
+			'!./dist/**/*',
+			'!./jsx-src',
+			'!./jsx-src/**/*',
+			'!./node_modules',
+			'!./node_modules/**/*',
+			'!./.*',
+			'!./.*/**/*',
+			'!./gulpfile.js',
+			'!./config.sample.js',
+			'!./config.js'
+		], { follow: true }).pipe(gulpDebug()).pipe(gulp.dest('./.build')),
+		vfs.src('./config.sample.js')
+			.pipe(require('gulp-rename')('config.js'))
+			.pipe(gulpDebug())
+			.pipe(gulp.dest('./.build'))
+	);
 });
 
 gulp.task('yarn-build', ['build-copy-files'], () => {

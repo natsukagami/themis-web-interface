@@ -59,6 +59,7 @@
     "envify": "^4.0.0",
     "gulp-clean": "^0.3.2",
     "gulp-debug": "^3.0.0",
+    "gulp-rename": "^1.2.2",
     "gulp-uglify": "^2.0.0",
     "gulp-yarn": "^0.0.5",
     "gulp-zip": "^3.2.0",
