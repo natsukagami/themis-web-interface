@@ -8,14 +8,19 @@ const UserLog = new nedb({
 	autoload: true
 });
 
-function addUser(username, cb) {
+function addUser(username, cb = () => {}) {
 	// Adds a new user.
-	UserLog.insert({
-		username: username,
-		submits: { },
-		scores: { }
-	}, (err, user) => {
-		if (cb) cb(err, user);
+	UserLog.findOne({ username: username }, (err, user) => {
+		if (err) return cb(err);
+		if (user === null) {
+			UserLog.insert({
+				username: username,
+				submits: { },
+				scores: { }
+			}, (err, user) => {
+				if (cb) cb(err, user);
+			});
+		} else cb();
 	});
 }
 
