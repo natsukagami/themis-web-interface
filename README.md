@@ -51,7 +51,7 @@ Please follow the ESLint restrictions included with the source code. I am glad t
 ## Current Implementation Status
  - [x] Basic functions (submitting, judge result receiving).
  - [x] Account parsing.
- - [ ] Account registration.
+ - [x] Account registration.
  - [x] Account modification.
  - [x] Offline submission saving with `localStorage`.
  - [ ] Online submission saving.
