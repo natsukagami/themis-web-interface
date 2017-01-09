@@ -147,7 +147,7 @@ class UploadSubmission extends React.Component {
 				this.setState({ file: null, uploading: false });
 				this.props.onAdd(new Submission({
 					filename: baseName,
-					ext: { '.cpp': 'C++', '.pas': 'Pascal', '.py': 'Python' }[extName],
+					ext: { '.cpp': 'C++', '.pas': 'Pascal', '.py': 'Python' }[extName.toLowerCase()],
 					content: fr.result
 				}));
 			};
