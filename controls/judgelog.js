@@ -22,11 +22,12 @@ class Log {
 		}
 		const res = lines.slice(4);
 		const details = [];
+		const rFirstLine = new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i');
 		for (let i = 0; i + 1 < res.length; i += 3) {
 			if (res[i + 1] === 'Chạy quá thời gian') {
 				details.push({
-					id: res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[1],
-					score: Number(res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[2]),
+					id: res[i].match(rFirstLine)[1],
+					score: Number(res[i].match(rFirstLine)[2]),
 					time: 0,
 					verdict: res[i + 1]
 				});
@@ -34,22 +35,31 @@ class Log {
 			}
 			if (res[i + 1] === 'Chạy sinh lỗi') {
 				details.push({
-					id: res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[1],
-					score: Number(res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[2]),
+					id: res[i].match(rFirstLine)[1],
+					score: Number(res[i].match(rFirstLine)[2]),
 					time: 0,
 					verdict: res[i + 1] + ': ' + res[i + 2]
 				});
 				continue;
 			}
+			if (!rFirstLine.test(res[i])) {
+				if (!details.length) {
+					// Ignore, invalid log
+				} else {
+					// Append to last log
+					details[details.length - 1].verdict += '\n' + res[i];
+				}
+				i -= 2; continue; // Move to next line
+			}
 			details.push({
-				id: res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[1],
-				score: Number(res[i].match(new RegExp(rEs(`${user}‣${problem}‣`) + '(.+)' + rEs(': ') + '(.+)', 'i'))[2]),
+				id: res[i].match(rFirstLine)[1],
+				score: Number(res[i].match(rFirstLine)[2]),
 				time: Number(res[i + 1].match('Thời gian ≈ (.+) giây')[1]),
 				verdict: res[i + 2]
 			});
 		}
 		return {
-			verdict: verdict,
+			verdict: Number(verdict),
 			details: details
 		};
 	}
@@ -85,5 +95,7 @@ getLog.setLog = (user, problem, ext, contents) => {
 	if (!Logs[user]) Logs[user] = {};
 	Logs[user][problem + ext] = contents;
 };
+
+getLog.Log = Log;
 
 module.exports = getLog;
