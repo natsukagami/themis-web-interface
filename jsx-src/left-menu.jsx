@@ -40,11 +40,13 @@ class LeftMenuItem extends React.Component {
 			className={'list-group-item' + (this.props.active ? ' active' : '')}
 		>
 			<Button bsStyle='danger' bsSize='xs' onClick={() => this.handleDelete()}><Glyphicon glyph='remove'/></Button>
-			<a href='#' onClick={() => this.props.onSelect(this.props.id)}>
+			<a href='#' onClick={() => this.props.onSelect(this.props.id)} style={{ fontSize: '1vw' }}>
 				{' ' + this.props.name + ' '}
 			</a>
-			<SaveStatus status={this.props.saveStatus}></SaveStatus>
 			{x}
+			<div style={{paddingTop: '5px'}}>
+				<SaveStatus status={this.props.saveStatus}></SaveStatus>
+			</div>
 		</div>;
 	}
 }
