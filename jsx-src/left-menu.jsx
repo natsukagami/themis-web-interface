@@ -217,7 +217,8 @@ LeftMenu.propTypes = {
 	onSelect: React.PropTypes.func.isRequired,
 	onDelete: React.PropTypes.func.isRequired,
 	onAdd: React.PropTypes.func.isRequired,
-	onUpdate: React.PropTypes.func.isRequired
+	onUpdate: React.PropTypes.func.isRequired,
+	containerWidth: React.PropTypes.number.isRequired
 };
 
 module.exports = Dimensions()(LeftMenu);
