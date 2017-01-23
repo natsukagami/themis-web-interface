@@ -48,6 +48,12 @@ Alternatively `yarn build-jsx` (`npm run build-jsx`) can be used to only build t
 ## Contributing
 Please follow the ESLint restrictions included with the source code. I am glad to look at any problem you face and will kindly respond to all legitimate PRs so do not hesitate. Feature requests are also welcomed, however if you only come up with the idea and no details or any intent to code / help me out with its implementation, please go away.
 
+### LF / CRLF Problem
+All code files ends a line with `LF`. Only real data files (e.g. log files in `tests/`) can be allowed to end with CRLF. I will disaprove any PR using CRLF.
+
+### `public/js/index.js` file
+If any changes are made to `.jsx` files, a `yarn build-jsx` must be ran (on Linux, recommended) to recompile the `public/js/index.js` file. This is required to help anyone who wish to run the project from source without rebuilding everything. If neccessary I will further push an official `build-jsx` build if the build environment is different.
+
 ## Current Implementation Status
  - [x] Basic functions (submitting, judge result receiving).
  - [x] Account parsing.
