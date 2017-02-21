@@ -231,7 +231,7 @@ class LeftMenu extends React.Component {
 }
 LeftMenu.propTypes = {
 	submissions: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Submission)).isRequired,
-	selected: React.PropTypes.number.isRequired,
+	selected: React.PropTypes.number,
 	onSelect: React.PropTypes.func.isRequired,
 	onDelete: React.PropTypes.func.isRequired,
 	onAdd: React.PropTypes.func.isRequired,

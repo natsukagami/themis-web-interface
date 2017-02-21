@@ -1,33 +1,37 @@
 import React from 'react';
 import reactDom from 'react-dom';
 import { Col, Row } from 'react-bootstrap';
-const Submission = require('../controls/submission');
 
 const LeftMenu = require('./left-menu.jsx');
 const Editor = require('./editor.jsx');
 const TestDetails = require('./test-details.jsx');
+const LC = require('./localstorage.jsx');
 
 const axios = require('axios');
 
 class Main extends React.Component {
 	constructor() {
 		super();
-		if (localStorage.getItem('username') !== window.username) {
-			this.state = {
-				submissions: [],
-				selected: null
-			};
-		} else {
-			this.state = {
-				submissions: JSON.parse(localStorage.getItem('submissions')).map(item => new Submission(item)),
-				selected: Number(localStorage.getItem('selected'))
-			};
-		}
+		// if (localStorage.getItem('username') !== window.username) {
+		// 	this.state = {
+		// 		submissions: [],
+		// 		selected: null
+		// 	};
+		// } else {
+		// 	this.state = {
+		// 		submissions: JSON.parse(localStorage.getItem('submissions')).map(item => new Submission(item)),
+		// 		selected: Number(localStorage.getItem('selected'))
+		// 	};
+		// }
+		LC.User = window.username;
+		this.state = {
+			submissions: LC.submissions,
+			selected: LC.selected
+		};
 	}
 	componentDidUpdate() {
-		localStorage.setItem('username', window.username);
-		localStorage.setItem('submissions', JSON.stringify(this.state.submissions));
-		localStorage.setItem('selected', this.state.selected);
+		LC.submissions = this.state.submissions;
+		LC.selected = this.state.selected;
 	}
 	componentDidMount() {
 		this.componentDidUpdate();
