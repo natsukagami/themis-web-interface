@@ -14,6 +14,7 @@ const http = require('http');
 const passport = require('passport');
 const session = require('express-session');
 const lokiStore = require('connect-loki')(session);
+const axios = require('axios');
 
 try {
 	require('./config');
@@ -128,5 +129,20 @@ httpServer.on('listening', () => {
 	let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
 	httpServer.debug('Listening on ' + bind + '. Ctrl-C to stop the server.');
 });
+
+if (process.env.NODE_ENV === 'production') {
+	// checks for a new version
+	axios.get('https://api.github.com/repos/natsukagami/themis-web-interface/releases')
+	.then(response => {
+		if (response.status !== 200) return httpServer.debug('Failed to check for new version: Response status ' + response.status);
+		const versions = response.data;
+		if (versions[0].tag_name !== require('fs').readFileSync('twi.version')) {
+			httpServer.debug('New version available: ' + versions[0].name + ', please download at ' + versions[0].assets[0].browser_download_url);
+		}
+	})
+	.catch(err => {
+		httpServer.debug('Failed to check for new version: ' + err);
+	});
+}
 
 httpServer.listen(PORT);

@@ -57,7 +57,7 @@ gulp.task('watch', () => {
 	a.on('log', debug);
 });
 
-gulp.task('build', ['pre-build', 'build-copy-files', 'yarn-build', 'clean-yarn-files', 'zip', 'post-build']);
+gulp.task('build', ['pre-build', 'build-copy-files', 'version-info', 'yarn-build', 'clean-yarn-files', 'zip', 'post-build']);
 
 gulp.task('pre-build', ['verify-npm'], done => {
 	require('fs').stat('.build', err => {
@@ -95,6 +95,11 @@ gulp.task('yarn-build', ['build-copy-files'], () => {
 	return gulp.src(['./.build/package.json'])
 	.pipe(gulp.dest('./.build'))
 	.pipe(yarn({ production: true }));
+});
+
+gulp.task('version-info', ['build-copy-files'], () => {
+	require('fs').writeFileSync('./.build/twi.version', `v${process.env.npm_package_version}`);
+	return;
 });
 
 gulp.task('clean-yarn-files', ['yarn-build'], () => {
