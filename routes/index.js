@@ -15,6 +15,7 @@ router.use((req, res, next) => {
 });
 
 router.use('/submit', require('./submit'));
+router.use('/queue', require('./queue'));
 router.use('/files', require('./files'));
 router.use('/change-password', require('./changePassword'));
 

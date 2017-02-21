@@ -5,6 +5,7 @@ const Submission = require('../controls/submission');
 
 const JudgeLog = require('./judgelog.jsx');
 const FileServer = require('./file-server.jsx');
+const Queue = require('./queue.jsx');
 
 /**
  * SaveStatus: Displays the save status of a submission
@@ -207,6 +208,8 @@ class LeftMenu extends React.Component {
 		<AddSubmission onAdd={this.props.onAdd}/>
 		<hr/>
 		<UploadSubmission onAdd={this.props.onAdd}/>
+		<hr/>
+		<Queue/>
 		<hr/>
 		<FileServer/></div>;
 		return <div>
