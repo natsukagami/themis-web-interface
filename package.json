@@ -1,6 +1,6 @@
 {
   "name": "themis-web-interface",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A web interface for Themis, written in Node.js",
   "main": "index.js",
   "scripts": {
