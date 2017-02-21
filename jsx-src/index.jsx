@@ -103,8 +103,8 @@ class Main extends React.Component {
 		if (this.state.selected !== null && this.state.selected < this.state.submissions.length) {
 			centerRight = <div>
 				<Col sm={9}>
-					<Editor 
-						submission={this.state.submissions[this.state.selected]} 
+					<Editor
+						submission={this.state.submissions[this.state.selected]}
 						onChange={(value) => this.codeEdit(value)}
 						onSubmit={cb => this.submit(cb)}
 					/>
@@ -114,7 +114,7 @@ class Main extends React.Component {
 			</div>;
 		}
 		return <Row>
-			<Col sm={3}>
+			<Col md={3}>
 				<LeftMenu
 					submissions={this.state.submissions}
 					selected={this.state.selected}
@@ -129,4 +129,4 @@ class Main extends React.Component {
 	}
 }
 
-reactDom.render(<div className='container-fluid'><Main/></div>, document.getElementById('root'));
+reactDom.render(<Main/>, document.getElementById('root'));

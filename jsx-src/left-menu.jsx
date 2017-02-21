@@ -189,27 +189,43 @@ UploadSubmission.propTypes = {
  */
 class LeftMenu extends React.Component {
 	render() {
-		return <div className='affix' style={{width: this.props.containerWidth, maxHeight: '100%', overflowY: 'auto'}}>
-			<h4>Các bài nộp</h4>
-			<div className='list-group' style={{fontSize: '80%'}}>
-				{this.props.submissions.map((sub, id) => <LeftMenuItem
-					id={id}
-					name={sub.name}
-					saveStatus={sub.saveStatus}
-					verdict={sub.result.verdict}
-					active={id === this.props.selected}
-					key={sub.id}
-					onSelect={this.props.onSelect}
-					onDelete={this.props.onDelete}
-					onUpdate={results => this.props.onUpdate(id, results)}
-				/>)}
+		const content = <div><h4>Các bài nộp</h4>
+		<div className='list-group' style={{fontSize: '80%'}}>
+			{this.props.submissions.map((sub, id) => <LeftMenuItem
+				id={id}
+				name={sub.name}
+				saveStatus={sub.saveStatus}
+				verdict={sub.result.verdict}
+				active={id === this.props.selected}
+				key={sub.id}
+				onSelect={this.props.onSelect}
+				onDelete={this.props.onDelete}
+				onUpdate={results => this.props.onUpdate(id, results)}
+			/>)}
+		</div>
+		<hr/>
+		<AddSubmission onAdd={this.props.onAdd}/>
+		<hr/>
+		<UploadSubmission onAdd={this.props.onAdd}/>
+		<hr/>
+		<FileServer/></div>;
+		return <div>
+			<div
+				className='affix no-scrollbar hidden-xs hidden-sm'
+				style={{
+					width: this.props.containerWidth,
+					maxHeight: '90%',
+					height: '90%',
+					overflowY: 'auto',
+					paddingBottom: '50px'
+				}}
+				data-offset-bottom={20}
+			>
+				{content}
 			</div>
-			<hr/>
-			<AddSubmission onAdd={this.props.onAdd}/>
-			<hr/>
-			<UploadSubmission onAdd={this.props.onAdd}/>
-			<hr/>
-			<FileServer/>
+			<div className="visible-xs-inline visible-sm-inline">
+				{content}
+			</div>
 		</div>;
 	}
 }
