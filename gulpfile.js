@@ -82,7 +82,13 @@ gulp.task('build-copy-files', ['pre-build', 'render-jsx'], () => {
 			'!./.*/**/*',
 			'!./gulpfile.js',
 			'!./config.sample.js',
-			'!./config.js'
+			'!./config.js',
+			'!./data/submit/*',
+			'./data/submit/readme.md',
+			'!./data/logs/*',
+			'!./data/files/*',
+			'./data/files/readme.md',
+			'!./tests/**/*'
 		], { follow: true }).pipe(gulpDebug()).pipe(gulp.dest('./.build')),
 		vfs.src('./config.sample.js')
 			.pipe(require('gulp-rename')('config.js'))
