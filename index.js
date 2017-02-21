@@ -33,7 +33,10 @@ app.set('trust proxy', 1);
 app.use(require('serve-favicon')(path.join(process.cwd(), 'public', 'img', 'favicon.ico')));
 app.use(compression());
 app.use(expressLogger('dev', {
-	skip: (req, res) => { return req.baseUrl === '/log' && res.status === 200; }
+	skip: (req, res) => {
+		return (req.baseUrl === '/log' || req.baseUrl === '/queue') &&
+						(res.statusCode === 200 || res.statusCode === 429);
+	}
 }));
 app.use(bodyParser.urlencoded({
 	extended: false
