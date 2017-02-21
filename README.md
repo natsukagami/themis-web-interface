@@ -3,10 +3,20 @@
 
 A web interface for Themis, written in Node.js
 
+- [Running](#running)
+	- [From prebuilt archive](#from-prebuilt-archive)
+	- [From source](#from-source)
+- [Configuration](#configuration)
+- [Building](#building)
+- [Contributing](#contributing)
+	- [LF / CRLF Problem](#lf--crlf-problem)
+	- [`public/js/index.js` file](#publicjsindexjs-file)
+- [Current Implementation Status](#current-implementation-status)
+
 ## Running
 ### From prebuilt archive
 The most straightforward way to run is to download a prebuilt version of the project [here](https://github.com/natsukagami/themis-web-interface/releases). This includes all production required modules, as well as a bundled Node.js executable (Windows only) and a batch script file to quickly start the server (Windows only, again).
-After downloading, extract the archive and execute `run.bat`. The script will setup proper environment variables and launch the server.
+After downloading, extract the archive, do the [configuration](#configuration) and execute `run.bat`. The script will setup proper environment variables and launch the server.
 
 ### From source
 The source code also provides a prebuilt production-ready version of Browserify `index.js`.
