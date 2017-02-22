@@ -23,12 +23,13 @@ router.use((req, res, next) => {
 });
 
 let recaptcha = null;
-
-if (global.Config.registration.recaptcha.enable) {
-	recaptcha = require('express-recaptcha');
-	recaptcha.init(global.Config.registration.recaptcha.siteKey, global.Config.registration.recaptcha.secretKey);
-} else if (global.Config.registration.allow) {
-	debug('WARNING: Disabling ReCaptcha while allowing registration can put your server in danger of DoS!');
+if (global.Config.registration.allow) {
+	if (global.Config.registration.recaptcha.enable) {
+		recaptcha = require('express-recaptcha');
+		recaptcha.init(global.Config.registration.recaptcha.siteKey, global.Config.registration.recaptcha.secretKey);
+	} else {
+		debug('WARNING: Disabling ReCaptcha while allowing registration can put your server in danger of DoS!');
+	}
 }
 
 router.use((req, res, next) => {
