@@ -15,6 +15,11 @@ class LocalStorage {
 		}
 		// Loads all users
 		this.users = JSON.parse(localStorage.getItem('users'));
+		if (this.users === null) {
+			// First run
+			this.users = {};
+			this.save();
+		}
 		this.user = null;
 	}
 	save() {
