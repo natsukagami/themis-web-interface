@@ -136,7 +136,7 @@ if (process.env.NODE_ENV === 'production') {
 	.then(response => {
 		if (response.status !== 200) return httpServer.debug('Failed to check for new version: Response status ' + response.status);
 		const versions = response.data;
-		if (versions[0].tag_name !== require('fs').readFileSync('twi.version')) {
+		if (versions[0].tag_name !== require('fs').readFileSync('twi.version', 'utf-8')) {
 			httpServer.debug('New version available: ' + versions[0].name + ', please download at ' + versions[0].assets[0].browser_download_url);
 		}
 	})
