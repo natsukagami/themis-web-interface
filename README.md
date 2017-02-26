@@ -75,5 +75,5 @@ If any changes are made to `.jsx` files, a `yarn build-jsx` must be ran (on Linu
  - [x] Public file serving.
  - [x] Web code editor.
  - [ ] More lightweight JS file.
- - [ ] Auto update.
+ - [x] Auto update.
  - [x] Scoreboard.
