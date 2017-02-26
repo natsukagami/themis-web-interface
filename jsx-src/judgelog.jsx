@@ -13,7 +13,7 @@ class JudgeLog extends React.Component {
 		this.lastUpdated = new Date(0);
 		this.timer = null;
 	}
-	createTimer() { 
+	createTimer() {
 		let doFunc = () => {
 			axios.post('log', {
 				user: window.username,
@@ -41,7 +41,7 @@ class JudgeLog extends React.Component {
 	}
 	componentDidUpdate() {
 		// Why not DidMount? It should get updated at least once
-		if (this.props.verdict !== '') {
+		if (this.props.verdict !== '' && this.props.verdict !== 'Yes') {
 			clearInterval(this.timer);
 			this.timer = null;
 		}
@@ -57,7 +57,9 @@ class JudgeLog extends React.Component {
 	}
 	render() {
 		if (this.props.verdict === '')
-			return <Image responsive src='/public/img/giphy.gif' height='16' width='16'/>;
+			return <Image responsive src='/public/img/giphy.gif' height='16' width='16' />;
+		else if (this.props.verdict === 'Yes')
+			return <Image responsive src='/public/img/tick.png' height='16' width='16' />;
 		else return <span style={{fontSize: '80%'}}>{this.props.verdict}</span>;
 	}
 }

@@ -117,7 +117,7 @@ class Main extends React.Component {
 						onSubmit={cb => this.submit(cb)}
 					/>
 					<hr/>
-					<TestDetails results={this.state.submissions[this.state.selected].result.details} />
+					<TestDetails verdict={this.state.submissions[this.state.selected].result.verdict} results={this.state.submissions[this.state.selected].result.details} />
 				</Col>
 			</div>;
 		} else {

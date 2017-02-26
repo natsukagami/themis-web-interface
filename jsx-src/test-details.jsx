@@ -23,6 +23,12 @@ TestItem.propTypes = {
 class TestDetails extends React.Component {
 	render() {
 		if (!this.props.results) return null;
+		if (this.props.verdict === 'Yes') {
+			return <h5 className='text-center'>Bài của bạn đã được chấm.</h5>;
+		}
+		if (this.props.verdict === '') {
+			return <h5 className='text-center'>Bài của bạn đang trong queue...</h5>;
+		}
 		if (typeof this.props.results === 'string')
 			return <div id='compile-error'>
 				<h4>Biên dịch gặp lỗi</h4>
@@ -47,7 +53,8 @@ TestDetails.propTypes = {
 			time: React.PropTypes.number.isRequired
 		})),
 		React.PropTypes.string // Compile Error Message
-	])
+	]),
+	verdict: React.PropTypes.string.isRequired
 };
 
 module.exports = TestDetails;

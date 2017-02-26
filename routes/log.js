@@ -15,7 +15,9 @@ router.post('/', rateLimiter.prevent, (req, res, next) => {
 	if (!q.user || !q.problem || !q.ext)
 		return next(new Error('Invalid request '));
 	JudgeLog(q.user, q.problem, q.ext, log => {
-		if (log === null) return res.json(log);
+		if (log === null || log.content.verdict === '' || isNaN(Number(log.content.verdict))) return res.json(log);
+		if (global.Config.contestMode.enabled && global.Config.contestMode.hideLogs && global.Config.contestMode.endTime > new Date())
+			return res.json(Object.assign({}, log, { content: { verdict: 'Yes', details: [] }})); // Yes = Judged but log is hidden	
 		return res.json(log);
 	});
 });
