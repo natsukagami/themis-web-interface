@@ -27,6 +27,13 @@ router.get('/', (req, res) => {
 	return res.json(fileList);
 });
 
+router.use((req, res, next) => {
+	// If contest mode is enabled and contest hasn't started, do not serve files.
+	if (global.Config.contestMode.enabled && global.Config.contestMode.startTime > new Date())
+		return next(new Error('Cuộc thi chưa bắt đầu!'));
+	next();
+});
+
 router.param('id', (req, res, next, id) => {
 	if (!(id in fileList)) {
 		return next(new Error('Invalid request'));
