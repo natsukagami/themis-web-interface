@@ -6,6 +6,7 @@ const LeftMenu = require('./left-menu.jsx');
 const Editor = require('./editor.jsx');
 const TestDetails = require('./test-details.jsx');
 const LC = require('./localstorage.jsx');
+const Contest = require('./contest.jsx');
 
 const axios = require('axios');
 
@@ -108,7 +109,8 @@ class Main extends React.Component {
 		let centerRight = null;
 		if (this.state.selected !== null && this.state.selected < this.state.submissions.length) {
 			centerRight = <div>
-				<Col md={9}>
+				<Col sm={9}>
+					<div className='text-right'><Contest /></div>
 					<Editor
 						submission={this.state.submissions[this.state.selected]}
 						onChange={(value) => this.codeEdit(value)}
@@ -118,6 +120,8 @@ class Main extends React.Component {
 					<TestDetails results={this.state.submissions[this.state.selected].result.details} />
 				</Col>
 			</div>;
+		} else {
+			centerRight = <Col sm={9}><div className='text-right'><Contest /></div></Col>;
 		}
 		return <Row>
 			<Col md={3}>

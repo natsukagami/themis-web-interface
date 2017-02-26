@@ -14,6 +14,7 @@ router.use((req, res, next) => {
 	next();
 });
 
+router.use('/contest', require('./contest'));
 router.use('/submit', require('./submit'));
 router.use('/queue', require('./queue'));
 router.use('/files', require('./files'));

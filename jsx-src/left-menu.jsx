@@ -191,28 +191,30 @@ UploadSubmission.propTypes = {
  */
 class LeftMenu extends React.Component {
 	render() {
-		const content = <div><h4>Các bài nộp</h4>
-		<div className='list-group' style={{fontSize: '80%'}}>
-			{this.props.submissions.map((sub, id) => <LeftMenuItem
-				id={id}
-				name={sub.name}
-				saveStatus={sub.saveStatus}
-				verdict={sub.result.verdict}
-				active={id === this.props.selected}
-				key={sub.id}
-				onSelect={this.props.onSelect}
-				onDelete={this.props.onDelete}
-				onUpdate={results => this.props.onUpdate(id, results)}
-			/>)}
-		</div>
-		<hr/>
-		<AddSubmission onAdd={this.props.onAdd}/>
-		<hr/>
-		<UploadSubmission onAdd={this.props.onAdd}/>
-		<hr/>
-		<Queue/>
-		<hr/>
-		<FileServer/></div>;
+		const content = <div>
+			<h4>Các bài nộp</h4>
+			<div className='list-group' style={{fontSize: '80%'}}>
+				{this.props.submissions.map((sub, id) => <LeftMenuItem
+					id={id}
+					name={sub.name}
+					saveStatus={sub.saveStatus}
+					verdict={sub.result.verdict}
+					active={id === this.props.selected}
+					key={sub.id}
+					onSelect={this.props.onSelect}
+					onDelete={this.props.onDelete}
+					onUpdate={results => this.props.onUpdate(id, results)}
+				/>)}
+			</div>
+			<hr/>
+			<AddSubmission onAdd={this.props.onAdd}/>
+			<hr/>
+			<UploadSubmission onAdd={this.props.onAdd}/>
+			<hr/>
+			<Queue/>
+			<hr/>
+			<FileServer />
+		</div>;
 		return <div>
 			<MediaQuery query='(min-width: 992px)'><div
 				className='affix no-scrollbar'
