@@ -19,7 +19,7 @@ class Submission {
 		result = {}
 	}) {
 		this.id = ++Submission.id;
-		this.filename = filename;
+		this.filename = filename.toUpperCase();
 		this.ext = ext;
 		this.content = content;
 		this.result = result;
