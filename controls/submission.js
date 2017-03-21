@@ -4,6 +4,12 @@ const extTable = {
 	'Python': 'py'
 };
 
+const langTable = {
+	'cpp': 'C++',
+	'pas': 'Pascal',
+	'py': 'Python'
+};
+
 class Submission {
 	constructor({
 		filename,
@@ -31,5 +37,8 @@ class Submission {
 	}
 }
 Submission.id = 0;
+
+Submission.ext = extTable;
+Submission.lang = langTable;
 
 module.exports = Submission;

@@ -9,6 +9,8 @@ const LC = require('./localstorage.jsx');
 
 const axios = require('axios');
 
+const Submission = require('../controls/submission');
+
 class Main extends React.Component {
 	constructor() {
 		super();
@@ -88,7 +90,7 @@ class Main extends React.Component {
 		const curSub = this.state.submissions[this.state.selected];
 		axios.post('/submit', {
 			problem: curSub.filename,
-			ext: { 'C++': '.cpp', Pascal: '.pas', Python: '.py' }[curSub.ext],
+			ext: '.' + Submission.ext[curSub.ext],
 			content: curSub.content
 		})
 		.then(({ status, data }) => {

@@ -106,7 +106,7 @@ class AddSubmission extends React.Component {
 				value={this.state.ext}
 				onChange={e => this.extChange(e.target.value)}
 			>
-				{['C++', 'Pascal', 'Python'].map(ext => {
+				{Object.keys(Submission.ext).map(ext => {
 					return <option value={ext} key={ext}>{ext}</option>;
 				})}
 			</FormControl>
@@ -150,7 +150,7 @@ class UploadSubmission extends React.Component {
 				this.setState({ file: null, uploading: false });
 				this.props.onAdd(new Submission({
 					filename: baseName,
-					ext: { '.cpp': 'C++', '.pas': 'Pascal', '.py': 'Python' }[extName.toLowerCase()],
+					ext: Submission.lang[extName.toLowerCase().replace('.', '')],
 					content: fr.result
 				}));
 			};
