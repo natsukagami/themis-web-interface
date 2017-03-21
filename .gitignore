@@ -1,5 +1,6 @@
 # Configuration file
 config.js
+data/account.xml
 
 # Fetchable files
 public/css/bootstrap/*

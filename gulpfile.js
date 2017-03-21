@@ -87,11 +87,17 @@ gulp.task('build-copy-files', ['pre-build', 'render-jsx'], () => {
 			'./data/submit/readme.md',
 			'!./data/logs/*',
 			'!./data/files/*',
+			'!./data/account.xml',
+			'!./data/account.sample.xml',
 			'./data/files/readme.md',
 			'!./tests/**/*'
 		], { follow: true }).pipe(gulpDebug()).pipe(gulp.dest('./.build')),
 		vfs.src('./config.sample.js')
 			.pipe(require('gulp-rename')('config.js'))
+			.pipe(gulpDebug())
+			.pipe(gulp.dest('./.build')),
+		vfs.src('./data/account.sample.xml')
+			.pipe(require('gulp-rename')('data/account.xml'))
 			.pipe(gulpDebug())
 			.pipe(gulp.dest('./.build'))
 	);
