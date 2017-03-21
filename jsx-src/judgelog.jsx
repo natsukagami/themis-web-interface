@@ -11,19 +11,23 @@ class JudgeLog extends React.Component {
 	constructor() {
 		super();
 		this.lastUpdated = new Date(0);
-		this.timer = setInterval(() => {
+		this.timer = null;
+	}
+	createTimer() { 
+		let doFunc = () => {
 			axios.post('log', {
 				user: window.username,
 				problem: path.basename(this.props.name, path.extname(this.props.name)),
 				ext: path.extname(this.props.name)
 			})
-			.then(({ status, data }) => {
-				if (status !== 200) return Promise.reject(new Error());
-				this.handleUpdate(data);
-			})
-			.catch(() => { // Pass
-			});
-		}, 5000); // every 5 seconds
+				.then(({ status, data }) => {
+					if (status !== 200) return Promise.reject(new Error());
+					this.handleUpdate(data);
+				})
+				.catch(() => { // Pass
+				});
+		};
+		return setInterval(doFunc, 5000); // every 5 seconds
 	}
 	handleUpdate(results) {
 		if (results === null) return;
@@ -32,13 +36,24 @@ class JudgeLog extends React.Component {
 		this.lastUpdated = results.created;
 		this.props.updateResults(results.content);
 	}
+	componentWillMount() {
+		this.timer = this.createTimer();
+	}
 	componentDidUpdate() {
 		// Why not DidMount? It should get updated at least once
-		if (this.props.verdict !== '')
+		if (this.props.verdict !== '') {
 			clearInterval(this.timer);
+			this.timer = null;
+		}
+		else if (this.timer === null) {
+			this.timer = this.createTimer();
+		}
 	}
 	componentWillUnmount() {
-		clearInterval(this.timer);
+		if (this.timer !== null) {
+			clearInterval(this.timer);
+			this.timer = null;
+		}
 	}
 	render() {
 		if (this.props.verdict === '')
