@@ -108,7 +108,7 @@ class Main extends React.Component {
 		let centerRight = null;
 		if (this.state.selected !== null && this.state.selected < this.state.submissions.length) {
 			centerRight = <div>
-				<Col sm={9}>
+				<Col md={9}>
 					<Editor
 						submission={this.state.submissions[this.state.selected]}
 						onChange={(value) => this.codeEdit(value)}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Label, Badge, Button, Glyphicon, Form, FormControl } from 'react-bootstrap';
 import Dimensions from 'react-dimensions';
 const Submission = require('../controls/submission');
+const MediaQuery = require('react-responsive');
 
 const JudgeLog = require('./judgelog.jsx');
 const FileServer = require('./file-server.jsx');
@@ -213,8 +214,8 @@ class LeftMenu extends React.Component {
 		<hr/>
 		<FileServer/></div>;
 		return <div>
-			<div
-				className='affix no-scrollbar hidden-xs hidden-sm'
+			<MediaQuery query='(min-width: 992px)'><div
+				className='affix no-scrollbar'
 				style={{
 					width: this.props.containerWidth,
 					maxHeight: '90%',
@@ -225,10 +226,10 @@ class LeftMenu extends React.Component {
 				data-offset-bottom={20}
 			>
 				{content}
-			</div>
-			<div className="visible-xs-inline visible-sm-inline">
+			</div></MediaQuery>
+			<MediaQuery query='(max-width: 991px)'>
 				{content}
-			</div>
+			</MediaQuery>
 		</div>;
 	}
 }
