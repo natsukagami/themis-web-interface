@@ -1,13 +1,15 @@
 const extTable = {
 	'C++': 'cpp',
 	'Pascal': 'pas',
-	'Python': 'py'
+	'Python': 'py',
+	'Java': 'java'
 };
 
 const langTable = {
 	'cpp': 'C++',
 	'pas': 'Pascal',
-	'py': 'Python'
+	'py': 'Python',
+	'java': 'Java'
 };
 
 class Submission {

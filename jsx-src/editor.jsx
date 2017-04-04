@@ -9,6 +9,7 @@ import 'brace';
 require('brace/mode/c_cpp');
 require('brace/mode/pascal');
 require('brace/mode/python');
+require('brace/mode/java');
 require('brace/theme/monokai');
 
 /**
