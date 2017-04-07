@@ -31,7 +31,8 @@ class Editor extends React.Component {
 Editor.modes = {
 	'C++': 'c_cpp',
 	Pascal: 'pascal',
-	Python: 'python'
+	Python: 'python',
+	Java: 'java'
 };
 Editor.propTypes = {
 	submission: React.PropTypes.instanceOf(Submission).isRequired,
