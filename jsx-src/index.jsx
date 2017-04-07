@@ -95,22 +95,20 @@ class Main extends React.Component {
 			content: curSub.content
 		})
 		.then(({ status, data }) => {
-			if (status !== 200 || data !== true) return Promise.reject(new Error('Submit failed'));
+			if (status !== 200 || data !== true) return Promise.reject(new Error(data || 'Submit failed'));
 			const newSub = this.state.submissions.slice();
 			newSub[this.state.selected].saveStatus = 'submitted';
 			newSub[this.state.selected].result = {};
 			return this.setState({ submissions: newSub });
 		})
-		.catch(() => {
-			return alert('Lỗi nộp bài, hãy thử lại!'), callback();
+		.catch(err => {
+			return alert(`Lỗi nộp bài (${err}), hãy thử lại!`), callback();
 		});
 	}
 	render() {
 		let centerRight = null;
 		if (this.state.selected !== null && this.state.selected < this.state.submissions.length) {
 			centerRight = <div>
-				<Col sm={9}>
-					<div className='text-right'><Contest /></div>
 					<Editor
 						submission={this.state.submissions[this.state.selected]}
 						onChange={(value) => this.codeEdit(value)}
@@ -118,24 +116,28 @@ class Main extends React.Component {
 					/>
 					<hr/>
 					<TestDetails verdict={this.state.submissions[this.state.selected].result.verdict} results={this.state.submissions[this.state.selected].result.details} />
-				</Col>
 			</div>;
 		} else {
-			centerRight = <Col sm={9}><div className='text-right'><Contest /></div></Col>;
+			centerRight = null;
 		}
-		return <Row>
-			<Col md={3}>
-				<LeftMenu
-					submissions={this.state.submissions}
-					selected={this.state.selected}
-					onSelect={(id) => this.selectedChange(id)}
-					onDelete={(id) => this.deleteSub(id)}
-					onAdd={(sub) => this.addSub(sub)}
-					onUpdate={(id, results) => this.updateResults(id, results)}
-				/>
-			</Col>
-			{centerRight}
-		</Row>;
+		return <div>
+			<Row>
+				<Col md={3}>
+					<LeftMenu
+						submissions={this.state.submissions}
+						selected={this.state.selected}
+						onSelect={(id) => this.selectedChange(id)}
+						onDelete={(id) => this.deleteSub(id)}
+						onAdd={(sub) => this.addSub(sub)}
+						onUpdate={(id, results) => this.updateResults(id, results)}
+					/>
+				</Col>
+				<Col md={9}>
+					<div className='text-right'><Contest /></div>
+					{centerRight}
+				</Col>
+			</Row>
+		</div>;
 	}
 }
 

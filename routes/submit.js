@@ -15,6 +15,21 @@ const rateLimiter = require('../controls/rate-limiter')({
 	lifetime: 60 * 60
 });
 
+router.use((req, res, next) => {
+	// If contest mode is enabled and contest hasn't started, do not allow submitting.
+	if (global.Config.contestMode.enabled) {
+		if (global.Config.contestMode.startTime > new Date()) {
+			return res.json('Cuộc thi chưa bắt đầu!');
+		}
+		// Don't allow when contest time's over.
+		if (global.Config.contestMode.endTime < new Date()) {
+			return res.json('Cuộc thi đã kết thúc!');
+		}
+	}
+
+	next();
+});
+
 router.post('/', rateLimiter.prevent, (req, res, next) => {
 	if (!req.user) {
 		let err = new Error('You have to login first');
