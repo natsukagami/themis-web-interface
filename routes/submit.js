@@ -25,6 +25,8 @@ router.post('/', rateLimiter.prevent, (req, res, next) => {
 	if (!q.problem || !q.ext || !q.content) {
 		return next(new Error('Invalid request'));
 	}
+	q.ext = q.ext.toLowerCase();
+	q.problem = q.problem.toUpperCase();
 	// Clean logs before writing
 	Log.setLog(req.user.username, q.problem, q.ext, {
 		created: new Date(),
