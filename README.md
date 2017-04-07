@@ -39,6 +39,10 @@ npm start
 The most basic configurations are available in `config.js`, which includes:
 - Contest name
 - Toggle scoreboard function
+- Contest mode, which includes:
+ + Timing for submit
+ + Contest clock
+ + Hiding results before contest ends
 
 Accounts are automatically parsed from `data\account.xml` (I know, WTF, but it keeps backwards-compability with the old web server. Furthermore, it supports editing from Excel.)
 
