@@ -116,6 +116,10 @@ User.Users = {};
 					let name = Rows[i].Cell[3].Data[0]._;
 					if (Rows[i].Cell[4].Data[0]._ == '0') password = md5(password);
 					User.Users[username] = new User(username, password, name, Rows[i]);
+					if (Rows[i].Cell[2].Data[0].$['ss:Type'] != 'String') {
+						// A hotfix for issue17, *sigh*
+						User.Users[username].save();
+					}
 				}
 			} catch (e) {
 				if (process.env.NODE_ENV !== 'production') throw e;
