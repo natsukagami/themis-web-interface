@@ -9,6 +9,16 @@ countdown.setLabels(
 	'ngay bây giờ'
 );
 
+/**
+ * ContestClock is an element that display the time until the beginning / end
+ * of the contest.
+ * The element's data is independant, as it is directly pulled from the server.
+ * Its data includes only the dates of the contest time.
+ * @class ContestClock
+ * @property {Date} startTime The contest's start time
+ * @property {Date} endTime   The contest's end time
+ * @property {Date} now       The last updated time of the element.
+ */
 class ContestClock extends React.Component {
 	constructor() {
 		super();
@@ -23,7 +33,7 @@ class ContestClock extends React.Component {
 				});
 				setInterval(() => this.setState({ now: new Date() }), 1000);
 			})
-			.catch(() => { }); 
+			.catch(() => { });
 	}
 	render() {
 		if (!this.state.startTime) return null;

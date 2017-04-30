@@ -1,14 +1,23 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
+/**
+ * The submit button. It is disabled when the code is already submitted.
+ * @class SubmitButton
+ * @param {string}   saveStatus The code's submit status.
+ * @param {Function} onSubmit   The submit event handler.
+ * @property {boolean} disabled Whether the button should be disabled.
+ */
 class SubmitButton extends React.Component {
 	constructor() {
 		super();
 		this.state = { disabled: false };
 	}
+	// update the state on load.
 	componentDidMount() {
 		this.setState({ disabled: this.props.saveStatus === 'submitted' });
 	}
+	// update the state on any change.
 	componentWillReceiveProps(newProps) {
 		this.setState({ disabled: newProps.saveStatus === 'submitted' });
 	}

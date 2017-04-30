@@ -1,5 +1,11 @@
 const Submission = require('../controls/submission');
 
+/**
+ * The localStorage wrapper.
+ * Every localStorage-related usage should go through this, as it is implemented
+ * with auto sync and data race prevention.
+ * @class LocalStorage
+ */
 class LocalStorage {
 	constructor() {
 		// Compability update
@@ -22,9 +28,11 @@ class LocalStorage {
 		}
 		this.user = null;
 	}
+	// Save the items into localStorage.
 	save() {
 		localStorage.setItem('users', JSON.stringify(this.users));
 	}
+	// The following items are getter and setter implementations.
 	set User(user) {
 		this.user = user;
 		if (!(user in this.users)) {

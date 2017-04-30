@@ -1,6 +1,7 @@
 import React from 'react';
-import { Label, Badge, Button, Glyphicon, Form, FormControl } from 'react-bootstrap';
+import { Label, Badge, Button, Glyphicon } from 'react-bootstrap';
 import Dimensions from 'react-dimensions';
+import { Add, Upload } from './submission-create.jsx';
 const Submission = require('../controls/submission');
 const MediaQuery = require('react-responsive');
 
@@ -9,8 +10,9 @@ const FileServer = require('./file-server.jsx');
 const Queue = require('./queue.jsx');
 
 /**
- * SaveStatus: Displays the save status of a submission
- * as a Bootstrap label
+ * Displays the save status of a submission as a Bootstrap label.
+ * @class SaveStatus
+ * @param {string} status The submission's save status, 'saved' or 'submitted'.
  */
 class SaveStatus extends React.Component {
 	render() {
@@ -26,16 +28,27 @@ SaveStatus.propTypes = {
 };
 
 /**
- * LeftMenuItem: Displays the submission as a row on the left menu.
+ * Displays the submission as a row on the left menu.
+ * @class LeftMenuItem
+ * @param {Number}   id         The submission's id.
+ * @param {string}   name       The submission's name.
+ * @param {string}   saveStatus The submission's save status.
+ * @param {boolean}  active     Is it the currently selected one?
+ * @param {string}   verdict    The submission's result verdict.
+ * @param {Function} onSelect   Submission-related event handler.
+ * @param {Function} onDelete   Submission-related event handler.
+ * @param {Function} onUpdate   Submission-related event handler.
  */
 class LeftMenuItem extends React.Component {
+	// Handles deletion with a confirm box.
 	handleDelete() {
 		if (window.confirm('Bạn có muốn xóa bài ' + this.props.name + ' không?')) {
 			this.props.onDelete(this.props.id);
 		}
 	}
 	render() {
-		let x = '';
+		let x = null;
+		// Only attempt to render the submission's results if it is submitted.
 		if (this.props.saveStatus === 'submitted' || this.props.verdict !== '')
 			x = <Badge><JudgeLog name={this.props.name} verdict={this.props.verdict} updateResults={this.props.onUpdate}/></Badge>;
 		return <div
@@ -67,127 +80,12 @@ LeftMenuItem.defaultProps = {
 };
 
 /**
- * The inline form to add a submission by providing a name and extension
- */
-class AddSubmission extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			filename: '',
-			ext: 'C++'
-		};
-	}
-	filenameChange(value) {
-		this.setState({ filename: value });
-	}
-	extChange(value) {
-		this.setState({ ext: value });
-	}
-	add() {
-		if (this.state.filename === '') return false; // Don't allow untitled files
-		let sub = new Submission(Object.assign({}, this.state));
-		this.setState({ filename: '' });
-		this.props.onAdd(sub);
-	}
-	render() {
-		return <Form inline={true}>
-			<FormControl
-				type='text'
-				placeholder='Tên bài'
-				value={this.state.filename}
-				onChange={e => this.filenameChange(e.target.value)}
-				style={{width: '45%', fontSize: '11px'}}
-				bsSize='small'
-				required
-			/>
-			<FormControl
-				componentClass='select'
-				style={{width: '35%', marginLeft: '5px'}}
-				bsSize='small'
-				value={this.state.ext}
-				onChange={e => this.extChange(e.target.value)}
-			>
-				{Object.keys(Submission.ext).map(ext => {
-					return <option value={ext} key={ext}>{ext}</option>;
-				})}
-			</FormControl>
-			<Button
-				type='submit'
-				bsStyle='success'
-				bsSize='small'
-				style={{width: '15%', marginLeft: '5px'}}
-				onClick={() => this.add()}
-			>
-				<Glyphicon glyph='plus'/>
-			</Button>
-		</Form>;
-	}
-}
-AddSubmission.propTypes = {
-	onAdd: React.PropTypes.func.isRequired
-};
-
-class UploadSubmission extends React.Component {
-	constructor() {
-		super();
-		this.state = { file: null, uploading: false };
-	}
-	fileChange(file) {
-		return this.setState({ file: (file ? file : null) });
-	}
-	add() {
-		if (this.state.file === null) return false; // Don't allow null file uploads
-		const file = this.state.file;
-		const filepath = this.state.file.name;
-		const extName = require('path').extname(filepath);
-		const baseName = require('path').basename(filepath, extName);
-		if (file.size > 1024 * 1024) { // File larger than 1mb, cannot render
-			return alert('File too large!');
-		}
-		// Starts reading, disables upload
-		this.setState({ uploading: true }, () => {
-			const fr = new FileReader();
-			fr.onload = () => {
-				this.setState({ file: null, uploading: false });
-				this.props.onAdd(new Submission({
-					filename: baseName,
-					ext: Submission.lang[extName.toLowerCase().replace('.', '')],
-					content: fr.result
-				}));
-			};
-			fr.readAsText(file);
-		});
-	}
-	render() {
-		return <Form inline>
-			<FormControl
-				type='file'
-				placeholder='Tải lên bài'
-				onChange={ e => this.fileChange(e.target.files[0]) }
-				accept='.cpp,.pas,.py'
-				multiple={false}
-				style={{width: '82%', display: 'inline'}}
-				bsSize='small'
-			/>
-			<Button
-				type='submit'
-				bsSize='small'
-				style={{width: '15%', marginLeft: '5px'}}
-				bsStyle='success'
-				disabled={this.state.uploading}
-				onClick={() => this.add()}
-			>
-				<Glyphicon glyph='upload'/>
-			</Button>
-		</Form>;
-	}
-}
-UploadSubmission.propTypes = {
-	onAdd: React.PropTypes.func.isRequired
-};
-
-/**
- * LeftMenu
+ * The left menu is, well, 70% of the complexity of the UI.
+ * @class LeftMenu
+ * @param {[Submission]} submissions    The list of submissions.
+ * @param {Number}       selected       Index of the selected submission.
+ * @param {Function}     on...          Submission event handlers (listed below).
+ * @param {Number}       containerWidth The container width allowed.
  */
 class LeftMenu extends React.Component {
 	render() {
@@ -207,14 +105,16 @@ class LeftMenu extends React.Component {
 				/>)}
 			</div>
 			<hr/>
-			<AddSubmission onAdd={this.props.onAdd}/>
+			<Add onAdd={this.props.onAdd}/>
 			<hr/>
-			<UploadSubmission onAdd={this.props.onAdd}/>
+			<Upload onAdd={this.props.onAdd}/>
 			<hr/>
 			<Queue/>
 			<hr/>
 			<FileServer />
 		</div>;
+		// We have to render the layout a little differently, depends on the
+		// screen width.
 		return <div>
 			<MediaQuery query='(min-width: 992px)'><div
 				className='affix no-scrollbar'

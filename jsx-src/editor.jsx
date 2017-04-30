@@ -39,6 +39,16 @@ Editor.propTypes = {
 	onChange: React.PropTypes.func.isRequired
 };
 
+/**
+ * EditorBox wraps the ace editor within a div, that also contains a submit
+ * button.
+ * @class EditorBox
+ * @param {Submission} submission The submission being edited.
+ * @param {Function}   onChange   The update function, called whenever the
+ * editor's content is changed.
+ * @param {Function}   onSubmit   The submit function, called when the submit
+ * button is clicked.
+ */
 class EditorBox extends React.Component {
 	render() {
 		return <div>

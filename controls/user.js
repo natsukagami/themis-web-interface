@@ -14,7 +14,18 @@ let xmlFile = null;
  * @type {eventEmitter}
  */
 const xmlWriter = new eventEmitter();
+
+/**
+ * Whether the XML build needs to be performed.
+ * @type {Boolean}
+ */
 xmlWriter.flag = false;
+
+/**
+ * Build checks whether a build is needed, and perform it when
+ * neccessary.
+ * @method build
+ */
 xmlWriter.build = function() {
 	if (!this.flag) return this.emit('build-finish');
 	debug('account.xml being updated.');
@@ -25,9 +36,11 @@ xmlWriter.build = function() {
 		this.emit('build-finish');
 	});
 };
+// On build finish, perform a check later.
 xmlWriter.on('build-finish', () => {
 	setTimeout(() => { xmlWriter.build(); }, 1000);
 });
+// Perform the first build.
 xmlWriter.build();
 
 /**

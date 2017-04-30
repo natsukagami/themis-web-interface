@@ -2,6 +2,13 @@ import React from 'react';
 import { ListGroup, ListGroupItem, Button, Glyphicon } from 'react-bootstrap';
 const axios = require('axios');
 
+/**
+ * FileItem is a list item for the Files collection. Each can be clicked on
+ * to download the requested file.
+ * @class FileItem
+ * @param {string} id   The file's id
+ * @param {string} name The file's name
+ */
 class FileItem extends React.Component {
 	render() {
 		return <ListGroupItem href={`/files/${this.props.id}`}>{this.props.name}</ListGroupItem>;
@@ -12,6 +19,15 @@ FileItem.propTypes = {
 	name: React.PropTypes.string.isRequired
 };
 
+/**
+ * FileServer is a collection of files displayed as a list. It also works
+ * as a communication gate between server-served files and the user.
+ * @class FileServer
+ * @property {map<string, string>} files          The received files to be
+ * rendered.
+ * @property {boolean}             disableRefresh Whether refresh should be
+ * disabled to avoid raiding the server.
+ */
 class FileServer extends React.Component {
 	constructor() {
 		super();
@@ -21,6 +37,10 @@ class FileServer extends React.Component {
 		};
 		this.fetchFiles();
 	}
+	/**
+	 * Fetch the files from the server.
+	 * @method fetchFiles
+	 */
 	fetchFiles() {
 		return axios.get('/files')
 		.then(response => {
@@ -30,6 +50,10 @@ class FileServer extends React.Component {
 		.catch(() => { // Pass error
 		});
 	}
+	/**
+	 * Triggers a manual refresh, and starts a 1-second ban on manual refreshing.
+	 * @method onRefresh
+	 */
 	onRefresh() {
 		this.fetchFiles();
 		this.setState({ disableRefresh: true });

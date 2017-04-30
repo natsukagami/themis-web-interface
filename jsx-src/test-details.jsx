@@ -1,6 +1,12 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
 
+/**
+ * Displays the test item result as a list object.
+ * @class TestItem
+ * @param - all the property of a judge test result, see more
+ * at controls/judgelog.js.
+ */
 class TestItem extends React.Component {
 	render() {
 		return <ListGroupItem id={`test-${this.props.id}`}>
@@ -20,6 +26,11 @@ TestItem.propTypes = {
 	score: React.PropTypes.number.isRequired
 };
 
+/**
+ * Displays the list of test results.
+ * @class TestDetails
+ * @param - The test result object.
+ */
 class TestDetails extends React.Component {
 	render() {
 		if (!this.props.results) return null;

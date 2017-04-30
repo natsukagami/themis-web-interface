@@ -12,30 +12,26 @@ const axios = require('axios');
 
 const Submission = require('../controls/submission');
 
+/**
+ * Main is the starting point React component.
+ * @class Main
+ */
 class Main extends React.Component {
 	constructor() {
 		super();
-		// if (localStorage.getItem('username') !== window.username) {
-		// 	this.state = {
-		// 		submissions: [],
-		// 		selected: null
-		// 	};
-		// } else {
-		// 	this.state = {
-		// 		submissions: JSON.parse(localStorage.getItem('submissions')).map(item => new Submission(item)),
-		// 		selected: Number(localStorage.getItem('selected'))
-		// 	};
-		// }
+		// Loads the information from localStorage.
 		LC.User = window.username;
 		this.state = {
 			submissions: LC.submissions,
 			selected: LC.selected
 		};
 	}
+	// On an update of the component, re-syncs the local database.
 	componentDidUpdate() {
 		LC.submissions = this.state.submissions;
 		LC.selected = this.state.selected;
 	}
+	// Re-syncs on the first render.
 	componentDidMount() {
 		this.componentDidUpdate();
 	}
