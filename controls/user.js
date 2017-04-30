@@ -81,6 +81,11 @@ class User {
 	save(cb = err => { if (err) debug(err); }) {
 		this.row.Cell[1].Data[0]._ = this.username;
 		this.row.Cell[2].Data[0]._ = this.password;
+		// The following line fixes the bug where the XML
+		// file turns unreadable because of Number password
+		// being casted to string by md5 but the type did
+		// not change.
+		this.row.Cell[2].Data[0].$['ss:Type'] = 'String';
 		this.row.Cell[3].Data[0]._ = this.name;
 		this.row.Cell[4].Data[0]._ = '1';
 		xmlWriter.flag = true;
