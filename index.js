@@ -79,10 +79,18 @@ app.use(/\/public\/js\/(index|scoreboard)\.js$/, (req, res, next) => {
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Declare global constants
-app.use((req, res, next) => {
-	res.locals.kjudgeVersion = process.env.npm_package_version;
-	next();
-});
+try {
+	const version = fs.readFileSync('twi.version', 'utf-8');
+	app.use((req, res, next) => {
+		res.locals.TWIVersion = 'v' + version;
+		next();
+	});
+} catch (e) {
+	app.use((req, res, next) => {
+		res.locals.TWIVersion = (process.env.npm_package_version ? `v${process.env.npm_package_version} (git)` : 'unknown version');
+		next();
+	});
+}
 
 // Routes
 app.use('/', require('./routes/index'));
