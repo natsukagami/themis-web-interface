@@ -2,8 +2,8 @@ const brute = require('express-brute');
 const bruteNedb = require('express-brute-nedb');
 const path = require('path');
 
-// Using neDB as a Rate-limiting database is not recommended,
-// as write-only binding creates unneccessary memory usage.
+// Let the object self-compact. Fixes the previously commented
+// problem about filesize.
 let store = new bruteNedb({
 	filename: path.join(process.cwd(), 'data', '.ratelimits.db')
 });
