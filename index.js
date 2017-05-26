@@ -68,6 +68,14 @@ if (app.get('env') === 'development') {
 }
 
 // Public static directory
+app.use(/\/public\/js\/(index|scoreboard)\.js$/, (req, res, next) => {
+	if (app.get('env') !== 'development') {
+		// Use the gzipped versions
+		req.url = req.url + '.gz';
+		res.set('Content-Encoding', 'gzip');
+		next();
+	} else next();
+});
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Declare global constants

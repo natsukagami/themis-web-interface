@@ -1,29 +1,32 @@
 extends ./layout
 
-mixin row(rank)
-	if rank <= 3
-		td: b
-			block
-	else
-		td
-			block
+//- mixin row(rank)
+//- 	if rank <= 3
+//- 		td: b
+//- 			block
+//- 	else
+//- 		td
+//- 			block
 
 block content
 	h1.text-center Bảng xếp hạng
-	hr
-	table.table.table-hover.table-bordered
-		thead: tr
-			th #
-			th Tên
-			th Tổng
-			each prob in problems
-				th=prob
-		tbody
-			each u in scoreboard
-				tr
-					td=u.rank
-					+row(u.rank)
-						| #{u.name}
-					td=u.total
-					each prob in problems
-						td=u[prob] || 0
+	//- hr
+	#root
+		h2.text-center Loading...
+	script(src='public/js/scoreboard.js')
+	//- table.table.table-hover.table-bordered
+	//- 	thead: tr
+	//- 		th #
+	//- 		th Tên
+	//- 		th Tổng
+	//- 		each prob in problems
+	//- 			th=prob
+	//- 	tbody
+	//- 		each u in scoreboard
+	//- 			tr
+	//- 				td=u.rank
+	//- 				+row(u.rank)
+	//- 					| #{u.name}
+	//- 				td=u.total
+	//- 				each prob in problems
+	//- 					td=u[prob] || 0

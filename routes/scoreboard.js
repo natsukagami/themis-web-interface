@@ -39,7 +39,10 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-	return res.json(res.locals.scoreboard);
+	return res.json({
+		problems: res.locals.problems,
+		contestants: res.locals.scoreboard
+	});
 });
 
 module.exports = router;

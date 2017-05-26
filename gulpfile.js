@@ -13,28 +13,36 @@ const clean = require('gulp-clean');
 
 gulp.task('default', ['build']);
 
-gulp.task('render-jsx', ['render-jsx-index']);
+gulp.task('render-jsx', ['render-jsx-index', 'render-jsx-scoreboard']);
 
-gulp.task('render-jsx-index', () => {
+function jsxRender(entry, filename) {
 	let b = browserify({
-		entries: 'jsx-src/index.jsx',
-		debug: true,
-		transform: [['babelify', {
-			presets: ['react', 'es2015']
-		}]]
+		entries: entry,
+		debug: false
 	})
-		.transform(envify, {global: true})
+		.transform('babelify', {
+			presets: ['es2015', 'react']
+		})
+		.transform(envify, { global: true })
 		.bundle()
-		.pipe(source('index.js'))
+		.pipe(source(filename))
 		.pipe(buffer());
 	if (process.env.NODE_ENV === 'production')
 		b = b.pipe(uglify());
-	return b.pipe(gulp.dest('public/js'));
+	return b.pipe(gulp.dest('public/js')).pipe(require('gulp-gzip')({ level: 9 })).pipe(gulp.dest('public/js'));
+}
+
+gulp.task('render-jsx-index', () => {
+	return jsxRender('jsx-src/index.jsx', 'index.js');
 });
 
-gulp.task('watch', () => {
+gulp.task('render-jsx-scoreboard', () => {
+	return jsxRender('jsx-src/scoreboard.jsx', 'scoreboard.js');
+});
+
+function jsxWatch(entry, filename) {
 	let a = browserify({
-		entries: 'jsx-src/index.jsx',
+		entries: entry,
 		debug: true,
 		cache: {},
 		packageCache: {},
@@ -46,15 +54,20 @@ gulp.task('watch', () => {
 	a.transform(envify, {global: true});
 	a.on('update', () => {
 		a.bundle()
-		.pipe(source('index.js'))
+		.pipe(source(filename))
 		.pipe(buffer())
 		.pipe(gulp.dest('public/js'));
 	});
 	a.bundle()
-	.pipe(source('index.js'))
+	.pipe(source(filename))
 	.pipe(buffer())
 	.pipe(gulp.dest('public/js'));
 	a.on('log', debug);
+}
+
+gulp.task('watch', () => {
+	jsxWatch('jsx-src/index.jsx', 'index.js');
+	jsxWatch('jsx-src/scoreboard.jsx', 'scoreboard.js');
 });
 
 gulp.task('build', ['pre-build', 'build-copy-files', 'version-info', 'yarn-build', 'clean-yarn-files', 'zip', 'post-build']);

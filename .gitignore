@@ -8,6 +8,7 @@ public/css/fonts/*
 !public/css/fonts/NotoMono-Regular.ttf
 public/js/bootstrap/*
 public/js/jquery/*
+public/js/*.gz
 
 # Distributed files
 data/files/*

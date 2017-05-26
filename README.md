@@ -78,6 +78,6 @@ If any changes are made to `.jsx` files, a `yarn build-jsx` must be ran (on Linu
  - [x] Judge result parsing.
  - [x] Public file serving.
  - [x] Web code editor.
- - [ ] More lightweight JS file.
+ - [x] More lightweight JS file (now gzipped to under 512kB!).
  - [x] Auto update.
  - [x] Scoreboard.
