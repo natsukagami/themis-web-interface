@@ -36,7 +36,7 @@ class JudgeLog extends React.Component {
 				.catch(() => { // Pass
 				});
 		};
-		return setInterval(doFunc, 5000); // every 5 seconds
+		return setInterval(() => doFunc(), 5000); // every 5 seconds
 	}
 	/**
 	 * Processes the received judge results.
@@ -83,7 +83,7 @@ class JudgeLog extends React.Component {
 JudgeLog.propTypes = {
 	name: React.PropTypes.string.isRequired,
 	updateResults: React.PropTypes.func.isRequired,
-	verdict: React.PropTypes.string
+	verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
 };
 JudgeLog.defaultProps = {
 	verdict: ''

@@ -72,7 +72,7 @@ LeftMenuItem.propTypes = {
 	name: React.PropTypes.string.isRequired,
 	saveStatus: React.PropTypes.oneOf(['saved', 'submitted']).isRequired,
 	active: React.PropTypes.bool.isRequired,
-	verdict: React.PropTypes.string,
+	verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
 	onSelect: React.PropTypes.func.isRequired,
 	onDelete: React.PropTypes.func.isRequired,
 	onUpdate: React.PropTypes.func.isRequired

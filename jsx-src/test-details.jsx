@@ -21,7 +21,7 @@ class TestItem extends React.Component {
 }
 TestItem.propTypes = {
 	id: React.PropTypes.string.isRequired,
-	verdict: React.PropTypes.string.isRequired,
+	verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
 	time: React.PropTypes.number.isRequired,
 	score: React.PropTypes.number.isRequired
 };
@@ -59,13 +59,13 @@ TestDetails.propTypes = {
 	results: React.PropTypes.oneOfType([
 		React.PropTypes.arrayOf(React.PropTypes.shape({
 			id: React.PropTypes.string.isRequired,
-			verdict: React.PropTypes.string.isRequired,
+			verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
 			score: React.PropTypes.number.isRequired,
 			time: React.PropTypes.number.isRequired
 		})),
 		React.PropTypes.string // Compile Error Message
 	]),
-	verdict: React.PropTypes.string
+	verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
 };
 
 module.exports = TestDetails;
