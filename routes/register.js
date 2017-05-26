@@ -2,16 +2,13 @@ const express = require('express');
 const router = express.Router();
 const debug = require('debug')('themis:router:register');
 const User = require('../controls/user');
+const Config = require('../config');
 
-const rateLimiter = require('../controls/rate-limiter')({
-	// Allow only 30 registrations per day
-	freeRetries: 30,
-	minWait: 25 * 60 * 60,
-	maxWait: 25 * 60 * 60,
-	lifetime: 24 * 60 * 60
-});
-
-router.use(rateLimiter.prevent);
+if (Config.rateLimiter.register !== null) {
+	debug('Rate limiter enabled.');
+	const rateLimiter = require('../controls/rate-limiter')(Config.rateLimiter.register);
+	router.use(rateLimiter.prevent);
+}
 
 router.use((req, res, next) => {
 	// Disable the router if registration is disabled

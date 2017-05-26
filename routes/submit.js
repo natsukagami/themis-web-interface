@@ -2,18 +2,19 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const debug = require('debug')('themis:router:submit');
 const Log = require('../controls/judgelog');
 const UserLog = require('../controls/userlog');
+const Config = require('../config');
 
 const submitPath = path.join(process.cwd(), 'data', 'submit');
 
-const rateLimiter = require('../controls/rate-limiter')({
-	// Allow 3 submits, then slows down
-	freeRetries: 30,
-	minWait: 2 * 60 * 60,
-	maxWait: 2 * 60 * 60,
-	lifetime: 60 * 60
-});
+if (Config.rateLimiter.submit !== null) {
+	debug('Rate limiter enabled.');
+	const rateLimiter = require('../controls/rate-limiter')(Config.rateLimiter.submit);
+	router.post('/', rateLimiter.prevent);
+}
+
 
 router.use((req, res, next) => {
 	// If contest mode is enabled and contest hasn't started, do not allow submitting.
@@ -30,7 +31,7 @@ router.use((req, res, next) => {
 	next();
 });
 
-router.post('/', rateLimiter.prevent, (req, res, next) => {
+router.post('/', (req, res, next) => {
 	if (!req.user) {
 		let err = new Error('You have to login first');
 		err.code = 403;
