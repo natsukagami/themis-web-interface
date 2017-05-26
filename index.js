@@ -83,7 +83,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 try {
 	const version = fs.readFileSync('twi.version', 'utf-8');
 	app.use((req, res, next) => {
-		res.locals.TWIVersion = 'v' + version;
+		res.locals.TWIVersion = version;
 		next();
 	});
 } catch (e) {
