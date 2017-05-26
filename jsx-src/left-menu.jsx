@@ -1,6 +1,7 @@
 import React from 'react';
 import { Label, Badge, Button, Glyphicon } from 'react-bootstrap';
 import Dimensions from 'react-dimensions';
+import FlipMove from 'react-flip-move';
 import { Add, Upload } from './submission-create.jsx';
 const Submission = require('../controls/submission');
 const MediaQuery = require('react-responsive');
@@ -52,6 +53,7 @@ class LeftMenuItem extends React.Component {
 		if (this.props.saveStatus === 'submitted' || this.props.verdict !== '')
 			x = <Badge><JudgeLog name={this.props.name} verdict={this.props.verdict} updateResults={this.props.onUpdate}/></Badge>;
 		return <div
+			key={this.id}
 			className={'list-group-item' + (this.props.active ? ' active' : '')}
 		>
 			<Button bsStyle='danger' bsSize='xs' onClick={() => this.handleDelete()}><Glyphicon glyph='remove'/></Button>
@@ -91,7 +93,7 @@ class LeftMenu extends React.Component {
 	render() {
 		const content = <div>
 			<h4>Các bài nộp</h4>
-			<div className='list-group' style={{fontSize: '80%'}}>
+			<FlipMove className='list-group' style={{fontSize: '80%'}}>
 				{this.props.submissions.map((sub, id) => <LeftMenuItem
 					id={id}
 					name={sub.name}
@@ -103,7 +105,7 @@ class LeftMenu extends React.Component {
 					onDelete={this.props.onDelete}
 					onUpdate={results => this.props.onUpdate(id, results)}
 				/>)}
-			</div>
+			</FlipMove>
 			<hr/>
 			<Add onAdd={this.props.onAdd}/>
 			<hr/>

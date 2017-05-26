@@ -4450,6 +4450,10 @@ react-dom@^15.4.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
+react-flip-move@^2.9.12:
+  version "2.9.12"
+  resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-2.9.12.tgz#b26ed29d30e8378a951e8b4aa8b5bf84d1825b1a"
+
 react-overlays@^0.6.10:
   version "0.6.11"
   resolved "https://registry.yarnpkg.com/react-overlays/-/react-overlays-0.6.11.tgz#30689e813b0e1a000f24baee0f8a4a318a1a4232"

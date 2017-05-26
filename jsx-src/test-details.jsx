@@ -65,7 +65,7 @@ TestDetails.propTypes = {
 		})),
 		React.PropTypes.string // Compile Error Message
 	]),
-	verdict: React.PropTypes.string.isRequired
+	verdict: React.PropTypes.string
 };
 
 module.exports = TestDetails;

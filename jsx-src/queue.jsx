@@ -14,7 +14,7 @@ class Queue extends React.Component {
 			count: 0
 		};
 		this.fetch();
-		setInterval(() => { this.fetchFiles(); }, 15000);
+		setInterval(() => { this.fetch(); }, 15000);
 	}
 	// Fetches queue information from the server.
 	fetch() {
