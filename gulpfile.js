@@ -98,7 +98,7 @@ gulp.task('build-copy-files', ['pre-build', 'render-jsx'], () => {
 			'!./config.js',
 			'!./data/submit/*',
 			'./data/submit/readme.md',
-			'!./data/logs/*',
+			'!./data/submit/logs/*',
 			'!./data/files/*',
 			'!./data/account.xml',
 			'!./data/account.sample.xml',
