@@ -9,9 +9,6 @@ public/css/fonts/*
 public/js/bootstrap/*
 public/js/jquery/*
 
-# Yarn lockfile
-yarn.lock
-
 # Distributed files
 data/files/*
 !data/files/readme.md
