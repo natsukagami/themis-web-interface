@@ -3,6 +3,7 @@
  * Instead for session-based data we use LokiJS, and for contests and submit logs
  * (yes we have submit logs) we have persistent NeDB for that.
  */
+const fs = require('fs');
 const compression = require('compression');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -152,7 +153,7 @@ if (process.env.NODE_ENV === 'production') {
 	.then(response => {
 		if (response.status !== 200) return httpServer.debug('Failed to check for new version: Response status ' + response.status);
 		const versions = response.data;
-		if (versions[0].tag_name !== require('fs').readFileSync('twi.version', 'utf-8')) {
+		if (versions[0].tag_name !== fs.readFileSync('twi.version', 'utf-8')) {
 			httpServer.debug('New version available: ' + versions[0].name + ', please download at ' + versions[0].assets[0].browser_download_url);
 		}
 	})
