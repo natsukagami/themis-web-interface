@@ -4,7 +4,7 @@ const debug = require('debug')('themis:router:log');
 const JudgeLog = require('../controls/judgelog');
 const Config = require('../config');
 
-if (Config.rateLimiter.logRequest !== null) {
+if (Config.rateLimiter && Config.rateLimiter.logRequest !== null) {
 	debug('Rate limiter enabled.');
 	const rateLimiter = require('../controls/rate-limiter')(Config.rateLimiter.logRequest);
 	router.post('/', rateLimiter.prevent);

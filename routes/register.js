@@ -4,7 +4,7 @@ const debug = require('debug')('themis:router:register');
 const User = require('../controls/user');
 const Config = require('../config');
 
-if (Config.rateLimiter.register !== null) {
+if (Config.rateLimiter && Config.rateLimiter.register !== null) {
 	debug('Rate limiter enabled.');
 	const rateLimiter = require('../controls/rate-limiter')(Config.rateLimiter.register);
 	router.use(rateLimiter.prevent);

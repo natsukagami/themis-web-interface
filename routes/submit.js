@@ -9,7 +9,7 @@ const Config = require('../config');
 
 const submitPath = path.join(process.cwd(), 'data', 'submit');
 
-if (Config.rateLimiter.submit !== null) {
+if (Config.rateLimiter && Config.rateLimiter.submit !== null) {
 	debug('Rate limiter enabled.');
 	const rateLimiter = require('../controls/rate-limiter')(Config.rateLimiter.submit);
 	router.post('/', rateLimiter.prevent);
