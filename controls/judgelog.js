@@ -9,10 +9,10 @@ const UserLog = require('./userlog');
 
 const globalize = require('globalize');
 globalize.load(
-	require('cldr-data/main/en/numbers'),
-	require('cldr-data/main/vi/numbers'),
-	require('cldr-data/supplemental/numberingSystems'),
-	require('cldr-data/supplemental/likelySubtags')
+	require('./cldr-data/main/en/numbers'),
+	require('./cldr-data/main/vi/numbers'),
+	require('./cldr-data/supplemental/numberingSystems'),
+	require('./cldr-data/supplemental/likelySubtags')
 );
 
 /**
