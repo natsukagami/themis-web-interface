@@ -7,6 +7,26 @@ const Scoring = require('./scoring');
 const logsPath = path.join(process.cwd(), 'data', 'submit', 'logs');
 const UserLog = require('./userlog');
 
+const globalize = require('globalize');
+globalize.load(
+	require('cldr-data/main/en/numbers'),
+	require('cldr-data/main/vi/numbers'),
+	require('cldr-data/supplemental/numberingSystems'),
+	require('cldr-data/supplemental/likelySubtags')
+);
+
+/**
+ * Try converting string to number with two regional settings (en_US and vi_VN).
+ * 
+ * @param {string} str
+ * @return {Number}
+ */
+function gNumber(str) {
+	const a = globalize('en').numberParser(), b = globalize('vi').numberParser();
+	if (isNaN(a(str))) return b(str);
+	return a(str);
+}
+
 /**
  * Log is an object that wraps a Log file.
  * @class Log
@@ -52,7 +72,7 @@ class Log {
 	static __parse(user, problem, content) {
 		const lines = content.split('\r\n'); // Must be \r\n because Windows
 		const verdict = lines[0].match(new RegExp(rEs(`${user}‣${problem}: `) + '(.+)', 'i'))[1];
-		if (isNaN(Number(verdict))) {
+		if (isNaN(gNumber(verdict))) {
 			// Verdict summary is not a number, therefore the lines following the
 			// first are just raw output.
 			return {
@@ -69,7 +89,7 @@ class Log {
 			if (res[i + 1] === 'Chạy quá thời gian') {
 				details.push({
 					id: res[i].match(rFirstLine)[1],
-					score: Number(res[i].match(rFirstLine)[2]),
+					score: gNumber(res[i].match(rFirstLine)[2]),
 					time: 0,
 					verdict: res[i + 1]
 				});
@@ -78,7 +98,7 @@ class Log {
 			if (res[i + 1] === 'Chạy sinh lỗi') {
 				details.push({
 					id: res[i].match(rFirstLine)[1],
-					score: Number(res[i].match(rFirstLine)[2]),
+					score: gNumber(res[i].match(rFirstLine)[2]),
 					time: 0,
 					verdict: res[i + 1] + ': ' + res[i + 2]
 				});
@@ -96,13 +116,13 @@ class Log {
 			// Here goes the final generic log format.
 			details.push({
 				id: res[i].match(rFirstLine)[1],
-				score: Number(res[i].match(rFirstLine)[2]),
-				time: Number(res[i + 1].match('Thời gian ≈ (.+) giây')[1]),
+				score: gNumber(res[i].match(rFirstLine)[2]),
+				time: gNumber(res[i + 1].match('Thời gian ≈ (.+) giây')[1]),
 				verdict: res[i + 2]
 			});
 		}
 		return {
-			verdict: Number(verdict),
+			verdict: gNumber(verdict),
 			details: details
 		};
 	}

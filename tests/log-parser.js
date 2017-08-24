@@ -64,5 +64,53 @@ describe('Log', () => {
 				done();
 			});
 		});
+		it('Should parse a normal log with VN regional settings without error', done => {
+			fs.readFile(path.join(process.cwd(), 'tests', 'vn-log.log'), 'utf-8', (err, file) => {
+				if (err) return done(err);
+				const f = Log.__parse('asdf0001', 'LINES', file);
+				assert.deepEqual(f, {
+					verdict: 100,
+					details: [
+						{
+							id: 'Test0001',
+							score: 1,
+							time: 0.035345205,
+							verdict: 'Output: 6.\nAnswer: 6.'
+						}, {
+							id: 'Test0002',
+							score: 1,
+							time: 0.033979277,
+							verdict: 'Output: 5.\nAnswer: 5.'
+						}, {
+							id: 'Test0003',
+							score: 1,
+							time: 0.035869937,
+							verdict: 'Output: 2.\nAnswer: 2.'
+						}, {
+							id: 'Test004',
+							score: 0,
+							time: 0,
+							verdict: 'Chạy sinh lỗi: Command: "C:\\ProgramData\\ThemisWorkSpace\\ContestRoom\\VO17BACH.exe" terminated with exit code: 3221225477 (Hexadecimal: C0000005)'
+						}, {
+							id: 'Test005',
+							score: 0,
+							time: 0,
+							verdict: 'Chạy quá thời gian'
+						}, {
+							id: 'Test0006',
+							score: 1,
+							time: 0.024341235,
+							verdict: 'Kết quả khớp đáp án!'
+						}, {
+							id: 'Test0007',
+							score: 1,
+							time: 0.024543243,
+							verdict: 'Kết quả khớp đáp án!'
+						}
+					]
+				}, 'Should be deeply equal to provided');
+				done();
+			});
+		});
 	});
 });
