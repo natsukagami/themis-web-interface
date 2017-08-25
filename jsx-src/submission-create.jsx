@@ -45,7 +45,6 @@ class AddSubmission extends React.Component {
 				value={this.state.filename}
 				onChange={e => this.filenameChange(e.target.value)}
 				style={{width: '45%', fontSize: '11px'}}
-				bsSize='small'
 				required
 			/>
 			<FormControl
@@ -124,7 +123,6 @@ class UploadSubmission extends React.Component {
 				accept='.cpp,.pas,.py'
 				multiple={false}
 				style={{width: '82%', display: 'inline'}}
-				bsSize='small'
 			/>
 			<Button
 				type='submit'
