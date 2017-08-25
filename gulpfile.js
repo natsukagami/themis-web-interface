@@ -21,7 +21,7 @@ function jsxRender(entry, filename) {
 		debug: false
 	})
 		.transform('babelify', {
-			presets: ['es2015', 'react']
+			presets: ['env', 'react']
 		})
 		.transform(envify, { global: true })
 		.bundle()
@@ -48,7 +48,7 @@ function jsxWatch(entry, filename) {
 		packageCache: {},
 		plugin: [watchify],
 		transform: [['babelify', {
-			presets: ['react', 'es2015']
+			presets: ['react', 'env']
 		}]]
 	});
 	a.transform(envify, {global: true});
