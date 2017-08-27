@@ -5,13 +5,12 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "cross-env DEBUG=gulp* gulp copy-deps --gulpfile gulp_copydeps.js",
-    "test": "nyc mocha --recursive tests/",
+    "test": "mocha --recursive tests/",
     "start": "cross-env DEBUG=themis:* node index.js",
     "prod": "cross-env NODE_ENV=production DEBUG=themis:* node index.js",
     "build-jsx": "cross-env NODE_ENV=production DEBUG=gulp* gulp render-jsx",
     "build": "cross-env NODE_ENV=production DEBUG=gulp* gulp build",
-    "watch": "cross-env DEBUG=gulp gulp watch",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+    "watch": "cross-env DEBUG=gulp gulp watch"
   },
   "repository": {
     "type": "git",
@@ -67,7 +66,6 @@
     "browserify": "^13.1.1",
     "chai": "^3.5.0",
     "cldr-data": "^31.0.2",
-    "codecov": "^2.3.0",
     "envify": "^4.0.0",
     "eslint": "^4.5.0",
     "eslint-config-defaults": "^9.0.0",
@@ -83,7 +81,6 @@
     "merge-stream": "^1.0.1",
     "mocha": "^3.2.0",
     "moment": "^2.18.1",
-    "nyc": "^11.1.0",
     "react": "^15.6.1",
     "react-ace": "^5.2.0",
     "react-bootstrap": "^0.31.2",
