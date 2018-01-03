@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { ListGroup, ListGroupItem, Button, Glyphicon } from 'react-bootstrap';
 const axios = require('axios');
@@ -15,8 +16,8 @@ class FileItem extends React.Component {
 	}
 }
 FileItem.propTypes = {
-	id: React.PropTypes.string.isRequired,
-	name: React.PropTypes.string.isRequired
+	id: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired
 };
 
 /**
@@ -43,12 +44,12 @@ class FileServer extends React.Component {
 	 */
 	fetchFiles() {
 		return axios.get('/files')
-		.then(response => {
-			if (response.status !== 200) return;
-			this.setState({ files: response.data });
-		})
-		.catch(() => { // Pass error
-		});
+			.then(response => {
+				if (response.status !== 200) return;
+				this.setState({ files: response.data });
+			})
+			.catch(() => { // Pass error
+			});
 	}
 	/**
 	 * Triggers a manual refresh, and starts a 1-second ban on manual refreshing.
@@ -64,12 +65,12 @@ class FileServer extends React.Component {
 			<h4>
 				Tải xuống
 				<span className='pull-right'><Button bsSize='xs' bsStyle='info' onClick={() => this.onRefresh()} disabled={this.state.disableRefresh}>
-					<Glyphicon glyph='refresh'/>
+					<Glyphicon glyph='refresh' />
 				</Button></span>
 			</h4>
 			<div>
 				<ListGroup>
-					{Object.keys(this.state.files).map(key => <FileItem key={key} id={key} name={this.state.files[key]}/>)}
+					{Object.keys(this.state.files).map(key => <FileItem key={key} id={key} name={this.state.files[key]} />)}
 					{(!Object.keys(this.state.files).length ? <ListGroupItem>Không có file nào</ListGroupItem> : null)}
 				</ListGroup>
 			</div>

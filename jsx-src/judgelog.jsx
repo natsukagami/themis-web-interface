@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Image } from 'react-bootstrap';
 const path = require('path');
@@ -77,13 +78,13 @@ class JudgeLog extends React.Component {
 			return <Image responsive src='/public/img/giphy.gif' height='16' width='16' />;
 		else if (this.props.verdict === 'Yes')
 			return <Image responsive src='/public/img/tick.png' height='16' width='16' />;
-		else return <span style={{fontSize: '80%'}}>{this.props.verdict}</span>;
+		else return <span style={{ fontSize: '80%' }}>{this.props.verdict}</span>;
 	}
 }
 JudgeLog.propTypes = {
-	name: React.PropTypes.string.isRequired,
-	updateResults: React.PropTypes.func.isRequired,
-	verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
+	name: PropTypes.string.isRequired,
+	updateResults: PropTypes.func.isRequired,
+	verdict: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 JudgeLog.defaultProps = {
 	verdict: ''

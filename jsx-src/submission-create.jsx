@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, FormControl, Button, Glyphicon } from 'react-bootstrap';
 const Submission = require('../controls/submission');
 
@@ -44,12 +45,12 @@ class AddSubmission extends React.Component {
 				placeholder='Tên bài'
 				value={this.state.filename}
 				onChange={e => this.filenameChange(e.target.value)}
-				style={{width: '45%', fontSize: '11px'}}
+				style={{ width: '45%', fontSize: '11px' }}
 				required
 			/>
 			<FormControl
 				componentClass='select'
-				style={{width: '35%', marginLeft: '5px'}}
+				style={{ width: '35%', marginLeft: '5px' }}
 				bsSize='small'
 				value={this.state.ext}
 				onChange={e => this.extChange(e.target.value)}
@@ -62,16 +63,16 @@ class AddSubmission extends React.Component {
 				type='submit'
 				bsStyle='success'
 				bsSize='small'
-				style={{width: '15%', marginLeft: '5px'}}
+				style={{ width: '15%', marginLeft: '5px' }}
 				onClick={() => this.add()}
 			>
-				<Glyphicon glyph='plus'/>
+				<Glyphicon glyph='plus' />
 			</Button>
 		</Form>;
 	}
 }
 AddSubmission.propTypes = {
-	onAdd: React.PropTypes.func.isRequired
+	onAdd: PropTypes.func.isRequired
 };
 
 /**
@@ -119,26 +120,26 @@ class UploadSubmission extends React.Component {
 			<FormControl
 				type='file'
 				placeholder='Tải lên bài'
-				onChange={ e => this.fileChange(e.target.files[0]) }
+				onChange={e => this.fileChange(e.target.files[0])}
 				accept='.cpp,.pas,.py'
 				multiple={false}
-				style={{width: '82%', display: 'inline'}}
+				style={{ width: '82%', display: 'inline' }}
 			/>
 			<Button
 				type='submit'
 				bsSize='small'
-				style={{width: '15%', marginLeft: '5px'}}
+				style={{ width: '15%', marginLeft: '5px' }}
 				bsStyle='success'
 				disabled={this.state.uploading}
 				onClick={() => this.add()}
 			>
-				<Glyphicon glyph='upload'/>
+				<Glyphicon glyph='upload' />
 			</Button>
 		</Form>;
 	}
 }
 UploadSubmission.propTypes = {
-	onAdd: React.PropTypes.func.isRequired
+	onAdd: PropTypes.func.isRequired
 };
 
 module.exports = {

@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Ace from 'react-ace';
 import SubmitButton from './submit-button.jsx';
-const Submission = require('../controls/submission');
-
 // TODO: How to reduce size of code by removing this but retain C++ functionality?
 import 'brace';
+const Submission = require('../controls/submission');
 
 require('brace/mode/c_cpp');
 require('brace/mode/pascal');
@@ -18,13 +18,13 @@ require('brace/theme/monokai');
 class Editor extends React.Component {
 	render() {
 		return <Ace
-			style={{width: '100%'}}
+			style={{ width: '100%' }}
 			mode={Editor.modes[this.props.submission.ext]}
 			theme='monokai'
 			name='editor'
 			onChange={this.props.onChange}
 			value={this.props.submission.content}
-			editorProps={{$blockScrolling: true}}
+			editorProps={{ $blockScrolling: true }}
 		/>;
 	}
 }
@@ -35,8 +35,8 @@ Editor.modes = {
 	Java: 'java'
 };
 Editor.propTypes = {
-	submission: React.PropTypes.instanceOf(Submission).isRequired,
-	onChange: React.PropTypes.func.isRequired
+	submission: PropTypes.instanceOf(Submission).isRequired,
+	onChange: PropTypes.func.isRequired
 };
 
 /**
@@ -54,16 +54,16 @@ class EditorBox extends React.Component {
 		return <div>
 			<h4>
 				Soạn code
-				<span className='pull-right' style={{ paddingBottom: 5 }}><SubmitButton saveStatus={this.props.submission.saveStatus} onSubmit={this.props.onSubmit}/></span>
+				<span className='pull-right' style={{ paddingBottom: 5 }}><SubmitButton saveStatus={this.props.submission.saveStatus} onSubmit={this.props.onSubmit} /></span>
 			</h4>
-			<Editor submission={this.props.submission} onChange={this.props.onChange}/>
+			<Editor submission={this.props.submission} onChange={this.props.onChange} />
 		</div>;
 	}
 }
 EditorBox.propTypes = {
-	submission: React.PropTypes.instanceOf(Submission).isRequired,
-	onChange: React.PropTypes.func.isRequired,
-	onSubmit: React.PropTypes.func.isRequired
+	submission: PropTypes.instanceOf(Submission).isRequired,
+	onChange: PropTypes.func.isRequired,
+	onSubmit: PropTypes.func.isRequired
 };
 
 module.exports = EditorBox;

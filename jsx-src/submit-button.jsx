@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 
 /**
@@ -36,8 +37,8 @@ class SubmitButton extends React.Component {
 	}
 }
 SubmitButton.propTypes = {
-	saveStatus: React.PropTypes.string.isRequired,
-	onSubmit: React.PropTypes.func.isRequired
+	saveStatus: PropTypes.string.isRequired,
+	onSubmit: PropTypes.func.isRequired
 };
 
 module.exports = SubmitButton;

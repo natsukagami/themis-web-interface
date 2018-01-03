@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Label, Badge, Button, Glyphicon } from 'react-bootstrap';
 import Dimensions from 'react-dimensions';
@@ -25,7 +26,7 @@ SaveStatus.stateBoard = {
 	'saved': <Label bsStyle={'info'}>✓Đã lưu</Label>
 };
 SaveStatus.propTypes = {
-	status: React.PropTypes.oneOf(['saved', 'submitted']).isRequired
+	status: PropTypes.oneOf(['saved', 'submitted']).isRequired
 };
 
 /**
@@ -51,31 +52,31 @@ class LeftMenuItem extends React.Component {
 		let x = null;
 		// Only attempt to render the submission's results if it is submitted.
 		if (this.props.saveStatus === 'submitted' || this.props.verdict !== '')
-			x = <Badge><JudgeLog name={this.props.name} verdict={this.props.verdict} updateResults={this.props.onUpdate}/></Badge>;
+			x = <Badge><JudgeLog name={this.props.name} verdict={this.props.verdict} updateResults={this.props.onUpdate} /></Badge>;
 		return <div
 			key={this.id}
 			className={'list-group-item' + (this.props.active ? ' active' : '')}
 		>
-			<Button bsStyle='danger' bsSize='xs' onClick={() => this.handleDelete()}><Glyphicon glyph='remove'/></Button>
+			<Button bsStyle='danger' bsSize='xs' onClick={() => this.handleDelete()}><Glyphicon glyph='remove' /></Button>
 			<a href='#' onClick={() => this.props.onSelect(this.props.id)} style={{ fontSize: '1vw' }}>
 				{' ' + this.props.name + ' '}
 			</a>
 			{x}
-			<div style={{paddingTop: '5px'}}>
+			<div style={{ paddingTop: '5px' }}>
 				<SaveStatus status={this.props.saveStatus}></SaveStatus>
 			</div>
 		</div>;
 	}
 }
 LeftMenuItem.propTypes = {
-	id: React.PropTypes.number.isRequired,
-	name: React.PropTypes.string.isRequired,
-	saveStatus: React.PropTypes.oneOf(['saved', 'submitted']).isRequired,
-	active: React.PropTypes.bool.isRequired,
-	verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
-	onSelect: React.PropTypes.func.isRequired,
-	onDelete: React.PropTypes.func.isRequired,
-	onUpdate: React.PropTypes.func.isRequired
+	id: PropTypes.number.isRequired,
+	name: PropTypes.string.isRequired,
+	saveStatus: PropTypes.oneOf(['saved', 'submitted']).isRequired,
+	active: PropTypes.bool.isRequired,
+	verdict: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	onSelect: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
+	onUpdate: PropTypes.func.isRequired
 };
 LeftMenuItem.defaultProps = {
 	verdict: ''
@@ -93,7 +94,7 @@ class LeftMenu extends React.Component {
 	render() {
 		const content = <div>
 			<h4>Các bài nộp</h4>
-			<FlipMove className='list-group' style={{fontSize: '80%'}}>
+			<FlipMove className='list-group' style={{ fontSize: '80%' }}>
 				{this.props.submissions.map((sub, id) => <LeftMenuItem
 					id={id}
 					name={sub.name}
@@ -106,13 +107,13 @@ class LeftMenu extends React.Component {
 					onUpdate={results => this.props.onUpdate(id, results)}
 				/>)}
 			</FlipMove>
-			<hr/>
-			<Add onAdd={this.props.onAdd}/>
-			<hr/>
-			<Upload onAdd={this.props.onAdd}/>
-			<hr/>
-			<Queue/>
-			<hr/>
+			<hr />
+			<Add onAdd={this.props.onAdd} />
+			<hr />
+			<Upload onAdd={this.props.onAdd} />
+			<hr />
+			<Queue />
+			<hr />
 			<FileServer />
 		</div>;
 		// We have to render the layout a little differently, depends on the
@@ -138,13 +139,13 @@ class LeftMenu extends React.Component {
 	}
 }
 LeftMenu.propTypes = {
-	submissions: React.PropTypes.arrayOf(React.PropTypes.instanceOf(Submission)).isRequired,
-	selected: React.PropTypes.number,
-	onSelect: React.PropTypes.func.isRequired,
-	onDelete: React.PropTypes.func.isRequired,
-	onAdd: React.PropTypes.func.isRequired,
-	onUpdate: React.PropTypes.func.isRequired,
-	containerWidth: React.PropTypes.number.isRequired
+	submissions: PropTypes.arrayOf(PropTypes.instanceOf(Submission)).isRequired,
+	selected: PropTypes.number,
+	onSelect: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
+	onAdd: PropTypes.func.isRequired,
+	onUpdate: PropTypes.func.isRequired,
+	containerWidth: PropTypes.number.isRequired
 };
 
 module.exports = Dimensions()(LeftMenu);

@@ -60,7 +60,7 @@ class Main extends React.Component {
 		newSubmissions.splice(id, 1);
 		let newSelected = this.state.selected;
 		if (newSelected === id) newSelected = 0;
-		if (newSelected > id) --newSelected;
+		if (newSelected > id)--newSelected;
 		if (newSubmissions.length === 0) newSelected = null;
 		return this.setState({ selected: newSelected, submissions: newSubmissions });
 	}
@@ -90,28 +90,29 @@ class Main extends React.Component {
 			ext: '.' + Submission.ext[curSub.ext],
 			content: curSub.content
 		})
-		.then(({ status, data }) => {
-			if (status !== 200 || data !== true) return Promise.reject(new Error(data || 'Submit failed'));
-			const newSub = this.state.submissions.slice();
-			newSub[this.state.selected].saveStatus = 'submitted';
-			newSub[this.state.selected].result = {};
-			return this.setState({ submissions: newSub });
-		})
-		.catch(err => {
-			return alert(`Lỗi nộp bài (${err}), hãy thử lại!`), callback();
-		});
+			.then(({ status, data }) => {
+				if (status !== 200 || data !== true) return Promise.reject(new Error(data || 'Submit failed'));
+				const newSub = this.state.submissions.slice();
+				newSub[this.state.selected].saveStatus = 'submitted';
+				newSub[this.state.selected].result = {};
+				return this.setState({ submissions: newSub });
+			})
+			.catch(err => {
+				alert(`Lỗi nộp bài (${err}), hãy thử lại!`);
+				return callback();
+			});
 	}
 	render() {
 		let centerRight = null;
 		if (this.state.selected !== null && this.state.selected < this.state.submissions.length) {
 			centerRight = <div>
-					<Editor
-						submission={this.state.submissions[this.state.selected]}
-						onChange={(value) => this.codeEdit(value)}
-						onSubmit={cb => this.submit(cb)}
-					/>
-					<hr/>
-					<TestDetails verdict={this.state.submissions[this.state.selected].result.verdict} results={this.state.submissions[this.state.selected].result.details} />
+				<Editor
+					submission={this.state.submissions[this.state.selected]}
+					onChange={(value) => this.codeEdit(value)}
+					onSubmit={cb => this.submit(cb)}
+				/>
+				<hr />
+				<TestDetails verdict={this.state.submissions[this.state.selected].result.verdict} results={this.state.submissions[this.state.selected].result.details} />
 			</div>;
 		} else {
 			centerRight = null;
