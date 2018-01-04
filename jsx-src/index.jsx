@@ -1,6 +1,11 @@
 import React from 'react';
 import reactDom from 'react-dom';
 import { Col, Row } from 'react-bootstrap';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+import index from './data/root';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const LeftMenu = require('./left-menu.jsx');
 const Editor = require('./editor.jsx');
@@ -146,4 +151,12 @@ class Main extends React.Component {
 	}
 }
 
-reactDom.render(<Main />, document.getElementById('root'));
+// Integrate with Redux
+const store = createStore(
+	index,
+	composeWithDevTools(
+		applyMiddleware(thunk)
+	),
+);
+
+reactDom.render(<Provider store={store}><Main /></Provider>, document.getElementById('root'));

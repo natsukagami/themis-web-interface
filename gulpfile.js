@@ -17,19 +17,24 @@ gulp.task('render-jsx', ['render-jsx-index', 'render-jsx-scoreboard']);
 
 function jsxRender(entry, filename) {
 	let b = browserify({
-		entries: entry,
-		debug: false
-	})
-		.transform('babelify', {
-			presets: ['env', 'react']
+			entries: entry,
+			debug: false
 		})
-		.transform(envify, { global: true })
+		.transform('babelify', {
+			presets: ['env', 'react'],
+			plugins: ['transform-object-rest-spread']
+		})
+		.transform(envify, {
+			global: true
+		})
 		.bundle()
 		.pipe(source(filename))
 		.pipe(buffer());
 	if (process.env.NODE_ENV === 'production')
 		b = b.pipe(uglify());
-	return b.pipe(gulp.dest('public/js')).pipe(require('gulp-gzip')({ level: 9 })).pipe(gulp.dest('public/js'));
+	return b.pipe(gulp.dest('public/js')).pipe(require('gulp-gzip')({
+		level: 9
+	})).pipe(gulp.dest('public/js'));
 }
 
 gulp.task('render-jsx-index', () => {
@@ -47,21 +52,26 @@ function jsxWatch(entry, filename) {
 		cache: {},
 		packageCache: {},
 		plugin: [watchify],
-		transform: [['babelify', {
-			presets: ['react', 'env']
-		}]]
+		transform: [
+			['babelify', {
+				presets: ['react', 'env'],
+				plugins: ['transform-object-rest-spread']
+			}]
+		]
 	});
-	a.transform(envify, {global: true});
+	a.transform(envify, {
+		global: true
+	});
 	a.on('update', () => {
 		a.bundle()
+			.pipe(source(filename))
+			.pipe(buffer())
+			.pipe(gulp.dest('public/js'));
+	});
+	a.bundle()
 		.pipe(source(filename))
 		.pipe(buffer())
 		.pipe(gulp.dest('public/js'));
-	});
-	a.bundle()
-	.pipe(source(filename))
-	.pipe(buffer())
-	.pipe(gulp.dest('public/js'));
 	a.on('log', debug);
 }
 
@@ -105,22 +115,26 @@ gulp.task('build-copy-files', ['pre-build', 'render-jsx'], () => {
 			'./data/files/readme.md',
 			'!./tests/**/*',
 			'!./public/js/*.js'
-		], { follow: true }).pipe(gulpDebug()).pipe(gulp.dest('./.build')),
+		], {
+			follow: true
+		}).pipe(gulpDebug()).pipe(gulp.dest('./.build')),
 		vfs.src('./config.sample.js')
-			.pipe(require('gulp-rename')('config.js'))
-			.pipe(gulpDebug())
-			.pipe(gulp.dest('./.build')),
+		.pipe(require('gulp-rename')('config.js'))
+		.pipe(gulpDebug())
+		.pipe(gulp.dest('./.build')),
 		vfs.src('./data/account.sample.xml')
-			.pipe(require('gulp-rename')('data/account.xml'))
-			.pipe(gulpDebug())
-			.pipe(gulp.dest('./.build'))
+		.pipe(require('gulp-rename')('data/account.xml'))
+		.pipe(gulpDebug())
+		.pipe(gulp.dest('./.build'))
 	);
 });
 
 gulp.task('yarn-build', ['build-copy-files'], () => {
 	return gulp.src(['./.build/package.json'])
-	.pipe(gulp.dest('./.build'))
-	.pipe(yarn({ production: true }));
+		.pipe(gulp.dest('./.build'))
+		.pipe(yarn({
+			production: true
+		}));
 });
 
 gulp.task('version-info', ['build-copy-files'], () => {
@@ -129,8 +143,10 @@ gulp.task('version-info', ['build-copy-files'], () => {
 });
 
 gulp.task('clean-yarn-files', ['yarn-build'], () => {
-	return gulp.src(['./.build/package.json', './.build/yarn.lock', './.build/gulp_copydeps.js'], { read: false })
-	.pipe(clean());
+	return gulp.src(['./.build/package.json', './.build/yarn.lock', './.build/gulp_copydeps.js'], {
+			read: false
+		})
+		.pipe(clean());
 });
 
 gulp.task('verify-npm', () => {
@@ -140,12 +156,14 @@ gulp.task('verify-npm', () => {
 
 gulp.task('zip', ['clean-yarn-files'], () => {
 	return gulp.src('./.build/**/*')
-	.pipe(gulpDebug())
-	.pipe(require('gulp-zip')(`${process.env.npm_package_name}_v${process.env.npm_package_version}_${require('moment')().format('YYYYMMDD-HHmmss')}.zip`))
-	.pipe(gulp.dest('./dist'));
+		.pipe(gulpDebug())
+		.pipe(require('gulp-zip')(`${process.env.npm_package_name}_v${process.env.npm_package_version}_${require('moment')().format('YYYYMMDD-HHmmss')}.zip`))
+		.pipe(gulp.dest('./dist'));
 });
 
 gulp.task('post-build', ['zip'], () => {
-	return vfs.src(['./.build'], { read: false })
-	.pipe(clean());
+	return vfs.src(['./.build'], {
+			read: false
+		})
+		.pipe(clean());
 });
