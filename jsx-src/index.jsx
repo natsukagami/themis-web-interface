@@ -69,7 +69,15 @@ class Main extends React.Component {
 	 */
 	addSub(sub) {
 		const newSub = this.state.submissions.slice();
-		newSub.push(sub);
+		// We can't allow multiple submissions with the same name anymore.
+		const idx = newSub.findIndex(s => s.name === sub.name);
+		if (idx !== -1) {
+			// Confirm override
+			if (confirm(`Bạn có muốn ghi đè file ${sub.name} không?`))
+				newSub[idx] = sub;
+		} else {
+			newSub.push(sub);
+		}
 		return this.setState({ submissions: newSub, selected: newSub.length - 1 });
 	}
 	/**
