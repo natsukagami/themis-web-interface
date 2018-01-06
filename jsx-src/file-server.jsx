@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { ListGroup, ListGroupItem, Button, Glyphicon } from 'react-bootstrap';
-const axios = require('axios');
+import { refresh, load } from './data/files';
+import { connect } from 'react-redux';
 
 /**
  * FileItem is a list item for the Files collection. Each can be clicked on
@@ -30,52 +31,50 @@ FileItem.propTypes = {
  * disabled to avoid raiding the server.
  */
 class FileServer extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			files: {},
-			disableRefresh: false
-		};
-		this.fetchFiles();
-	}
 	/**
-	 * Fetch the files from the server.
-	 * @method fetchFiles
+	 * Loads the reload clock on loading.
 	 */
-	fetchFiles() {
-		return axios.get('/files')
-			.then(response => {
-				if (response.status !== 200) return;
-				this.setState({ files: response.data });
-			})
-			.catch(() => { // Pass error
-			});
-	}
-	/**
-	 * Triggers a manual refresh, and starts a 1-second ban on manual refreshing.
-	 * @method onRefresh
-	 */
-	onRefresh() {
-		this.fetchFiles();
-		this.setState({ disableRefresh: true });
-		setTimeout(() => this.setState({ disableRefresh: false }), 1000); // Refresh again after 1 second please
+	componentWillMount() {
+		this.props.refresh();
+		this.props.load();
 	}
 	render() {
 		return <div>
 			<h4>
 				Tải xuống
-				<span className='pull-right'><Button bsSize='xs' bsStyle='info' onClick={() => this.onRefresh()} disabled={this.state.disableRefresh}>
+				<span className='pull-right'><Button bsSize='xs' bsStyle='info' onClick={() => this.props.refresh()} disabled={this.props.disableRefresh}>
 					<Glyphicon glyph='refresh' />
 				</Button></span>
 			</h4>
 			<div>
 				<ListGroup>
-					{Object.keys(this.state.files).map(key => <FileItem key={key} id={key} name={this.state.files[key]} />)}
-					{(!Object.keys(this.state.files).length ? <ListGroupItem>Không có file nào</ListGroupItem> : null)}
+					{Object.keys(this.props.files).map(key => <FileItem key={key} id={key} name={this.props.files[key]} />)}
+					{(!Object.keys(this.props.files).length ? <ListGroupItem>Không có file nào</ListGroupItem> : null)}
 				</ListGroup>
 			</div>
 		</div>;
 	}
 }
 
-module.exports = FileServer;
+FileServer.propTypes = {
+	refresh: PropTypes.func.isRequired,
+	load: PropTypes.func.isRequired,
+	disableRefresh: PropTypes.bool.isRequired,
+	files: PropTypes.object.isRequired
+};
+
+module.exports = connect(
+	state => {
+		return {
+			files: state.files.files,
+			disableRefresh: (new Date() - state.files.lastRefreshed) < 1000,
+		}
+	},
+	dispatch => {
+		return {
+			load: () => dispatch(load()),
+			refresh: () => dispatch(refresh())
+		}
+	}
+)(FileServer);
+module.exports.FileServer = FileServer;

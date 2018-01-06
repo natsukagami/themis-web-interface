@@ -7,7 +7,9 @@ import {
 // Contest information
 import contest from './contest';
 // Downloadable file list
+import files from './files';
 
 export default combineReducers({
-	contest
+	contest,
+	files
 });
