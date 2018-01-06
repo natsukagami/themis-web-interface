@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 /**
  * Displays the test item result as a list object.
@@ -14,16 +15,16 @@ class TestItem extends React.Component {
 				<span>{this.props.id}: <b>{Math.round(this.props.score * 1000) / 1000}</b></span>
 				<span className='pull-right'>Thời gian chạy: {Math.round(this.props.time * 1000) / 1000} giây</span>
 			</div>
-			<hr/>
-			<pre style={{whiteSpace: 'pre-wrap'}}>{this.props.verdict}</pre>
+			<hr />
+			<pre style={{ whiteSpace: 'pre-wrap' }}>{this.props.verdict}</pre>
 		</ListGroupItem>;
 	}
 }
 TestItem.propTypes = {
-	id: React.PropTypes.string.isRequired,
-	verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
-	time: React.PropTypes.number.isRequired,
-	score: React.PropTypes.number.isRequired
+	id: PropTypes.string.isRequired,
+	verdict: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+	time: PropTypes.number.isRequired,
+	score: PropTypes.number.isRequired
 };
 
 /**
@@ -56,16 +57,16 @@ class TestDetails extends React.Component {
 	}
 }
 TestDetails.propTypes = {
-	results: React.PropTypes.oneOfType([
-		React.PropTypes.arrayOf(React.PropTypes.shape({
-			id: React.PropTypes.string.isRequired,
-			verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
-			score: React.PropTypes.number.isRequired,
-			time: React.PropTypes.number.isRequired
+	results: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape({
+			id: PropTypes.string.isRequired,
+			verdict: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+			score: PropTypes.number.isRequired,
+			time: PropTypes.number.isRequired
 		})),
-		React.PropTypes.string // Compile Error Message
+		PropTypes.string // Compile Error Message
 	]),
-	verdict: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
+	verdict: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 module.exports = TestDetails;
