@@ -8,8 +8,10 @@ import {
 import contest from './contest';
 // Downloadable file list
 import files from './files';
+import queue from './queue';
 
 export default combineReducers({
 	contest,
-	files
+	files,
+	queue
 });

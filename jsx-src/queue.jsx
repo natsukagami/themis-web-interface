@@ -1,47 +1,50 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Glyphicon } from 'react-bootstrap';
-const axios = require('axios');
+import { connect } from 'react-redux';
+import { refresh, load } from './data/queue';
 
 /**
  * Receives judge queue information and displays the size of the judge queue.
  * @class Queue
- * @property {Number} count The received size of the queue.
  */
 class Queue extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			count: 0
-		};
-		this.fetch();
-		setInterval(() => { this.fetch(); }, 15000);
-	}
-	// Fetches queue information from the server.
-	fetch() {
-		return axios.post('/queue')
-		.then(response => {
-			if (response.status !== 200) return;
-			this.setState({ count: Number(response.data) });
-		})
-		.catch(() => { // Pass error
-		});
-	}
-	// Handles manual refresh.
-	onRefresh() {
-		this.fetch();
-		this.setState({ disableRefresh: true });
-		setTimeout(() => this.setState({ disableRefresh: false }), 1000); // Refresh again after 1 second please
+	// Loads the reload clock on mount.
+	componentWillMount() {
+		this.props.refresh();
+		this.props.load();
 	}
 	render() {
 		return <div>
 			<h5>
-				Số bài trong queue: <b>{this.state.count}</b>
-				<span className='pull-right'><Button bsSize='xs' bsStyle='info' onClick={() => this.onRefresh()} disabled={this.state.disableRefresh}>
-					<Glyphicon glyph='refresh'/>
+				Số bài trong queue: <b>{this.props.count}</b>
+				<span className='pull-right'><Button bsSize='xs' bsStyle='info' onClick={() => this.props.refresh()} disabled={this.props.disableRefresh}>
+					<Glyphicon glyph='refresh' />
 				</Button></span>
 			</h5>
 		</div>;
 	}
 }
 
-module.exports = Queue;
+Queue.propTypes = {
+	refresh: PropTypes.func.isRequired,
+	load: PropTypes.func.isRequired,
+	disableRefresh: PropTypes.bool.isRequired,
+	count: PropTypes.number.isRequired
+};
+
+module.exports = connect(
+	state => {
+		return {
+			count: state.queue.count,
+			disableRefresh: (new Date() - state.queue.lastRefreshed) < 1000,
+		}
+	},
+	dispatch => {
+		return {
+			load: () => dispatch(load()),
+			refresh: () => dispatch(refresh())
+		}
+	}
+)(Queue);
+module.exports.Queue = Queue;

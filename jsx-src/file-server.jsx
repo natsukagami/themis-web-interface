@@ -32,7 +32,7 @@ FileItem.propTypes = {
  */
 class FileServer extends React.Component {
 	/**
-	 * Loads the reload clock on loading.
+	 * Loads the reload clock on mount.
 	 */
 	componentWillMount() {
 		this.props.refresh();

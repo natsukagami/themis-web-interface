@@ -7,13 +7,13 @@ const router = express.Router();
 const submitPath = path.join(process.cwd(), 'data', 'submit')
 
 // Implements a periodic counter.
-const counter = function() {
+const counter = function () {
 	fs.readdir(submitPath, 'utf8', (err, files) => {
 		if (err) return;
 		Promise.all(files.filter(file => file !== 'readme.md').map(item => fs.statAsync(path.join(submitPath, item))))
-		.then(stats => {
-			counter.count = stats.filter(stat => stat.isFile()).length;
-		});
+			.then(stats => {
+				counter.count = stats.filter(stat => stat.isFile()).length;
+			});
 	});
 };
 counter();
