@@ -3,8 +3,8 @@
     "en": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13259 $",
-          "_cldrVersion": "31.0.1"
+          "_number": "$Revision: 13744 $",
+          "_cldrVersion": "32"
         },
         "language": "en"
       },
@@ -144,8 +144,8 @@
           "range": "{0}–{1}"
         },
         "minimalPairs": {
-          "pluralMinimalPairs": "{0} day",
-          "pluralMinimalPairs": "{0} days",
+          "pluralMinimalPairs-count-one": "{0} day",
+          "pluralMinimalPairs-count-other": "{0} days",
           "few": "Take the {0}rd right.",
           "one": "Take the {0}st right.",
           "other": "Take the {0}th right.",

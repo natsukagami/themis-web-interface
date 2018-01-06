@@ -4,8 +4,8 @@ import { Label, Badge, Button, Glyphicon } from 'react-bootstrap';
 import Dimensions from 'react-dimensions';
 import FlipMove from 'react-flip-move';
 import { Add, Upload } from './submission-create.jsx';
+import MediaQuery from 'react-responsive';
 const Submission = require('../controls/submission');
-const MediaQuery = require('react-responsive');
 
 const JudgeLog = require('./judgelog.jsx');
 const FileServer = require('./file-server.jsx');
@@ -119,7 +119,7 @@ class LeftMenu extends React.Component {
 		// We have to render the layout a little differently, depends on the
 		// screen width.
 		return <div>
-			<MediaQuery query='(min-width: 992px)'><div
+			<MediaQuery minWidth={992}><div
 				className='affix no-scrollbar'
 				style={{
 					width: this.props.containerWidth,
@@ -132,7 +132,7 @@ class LeftMenu extends React.Component {
 			>
 				{content}
 			</div></MediaQuery>
-			<MediaQuery query='(max-width: 991px)'>
+			<MediaQuery maxWidth={991}>
 				{content}
 			</MediaQuery>
 		</div>;

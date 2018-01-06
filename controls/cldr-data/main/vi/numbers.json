@@ -3,8 +3,8 @@
     "vi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13259 $",
-          "_cldrVersion": "31.0.1"
+          "_number": "$Revision: 13705 $",
+          "_cldrVersion": "32"
         },
         "language": "vi"
       },
@@ -82,7 +82,7 @@
               "insertBetween": " "
             }
           },
-          "standard": "¤ #,##0.00",
+          "standard": "#,##0.00 ¤",
           "accounting": "#,##0.00 ¤",
           "short": {
             "standard": {
@@ -107,8 +107,8 @@
           "range": "{0}-{1}"
         },
         "minimalPairs": {
-          "pluralMinimalPairs": "Rẽ vào lối rẽ thứ nhất bên phải.",
-          "pluralMinimalPairs": "Rẽ vào lối rẽ thứ {0} bên phải.",
+          "pluralMinimalPairs-count-one": "Rẽ vào lối rẽ thứ nhất bên phải.",
+          "pluralMinimalPairs-count-other": "Rẽ vào lối rẽ thứ {0} bên phải.",
           "one": "Rẽ vào lối rẽ thứ nhất bên phải.",
           "other": "Rẽ vào lối rẽ thứ {0} bên phải."
         }
