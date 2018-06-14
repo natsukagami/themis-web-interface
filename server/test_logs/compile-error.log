@@ -1,0 +1,24 @@
+dangcuong_123‣HIGHWAY: ℱ Dịch lỗi
+HIGHWAY.cpp
+Command: "C:\Program Files (x86)\Themis\gcc\bin\g++.exe" -o"HIGHWAY.exe" "HIGHWAY.cpp" -O2 -s -static -Wl,--stack,16777216 -lm -x c++ terminated with exit code: 1 (Hexadecimal: 1)
+HIGHWAY.cpp: In function 'bool LOC::onseg(const std::complex<int>&, const std::complex<int>&, const std::complex<int>&)':
+HIGHWAY.cpp:26:50: error: 'inrange' was not declared in this scope
+         inrange(a.x, min(b.x, c.x), max(b.x, c.x)) and
+                                                  ^
+HIGHWAY.cpp: In function 'bool LOC::intersect(const std::complex<int>&, const std::complex<int>&, const std::complex<int>&, const std::complex<int>&)':
+HIGHWAY.cpp:31:38: error: 'sign' was not declared in this scope
+     int o1 = sign(cross(b - a, c - a))
+                                      ^
+HIGHWAY.cpp:37:16: error: 'o2' was not declared in this scope
+         (o1 != o2 and o3 != o4) or
+                ^
+HIGHWAY.cpp:37:23: error: 'o3' was not declared in this scope
+         (o1 != o2 and o3 != o4) or
+                       ^
+HIGHWAY.cpp:37:29: error: 'o4' was not declared in this scope
+         (o1 != o2 and o3 != o4) or
+                             ^
+HIGHWAY.cpp: In function 'int LOC::main()':
+HIGHWAY.cpp:71:26: error: 'process' was not declared in this scope
+         ii ans = process();
+                          ^

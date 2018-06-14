@@ -1,0 +1,10 @@
+{
+  "created": 1528178691147,
+  "user": "dangcuong_123",
+  "problem": "HIGHWAY",
+  "content": {
+    "verdict": "ℱ dịch lỗi",
+    "details":
+      "Command: \"C:\\Program Files (x86)\\Themis\\gcc\\bin\\g++.exe\" -o\"HIGHWAY.exe\" \"HIGHWAY.cpp\" -O2 -s -static -Wl,--stack,16777216 -lm -x c++ terminated with exit code: 1 (Hexadecimal: 1)\nHIGHWAY.cpp: In function 'bool LOC::onseg(const std::complex\u003cint\u003e\u0026, const std::complex\u003cint\u003e\u0026, const std::complex\u003cint\u003e\u0026)':\nHIGHWAY.cpp:26:50: error: 'inrange' was not declared in this scope\n         inrange(a.x, min(b.x, c.x), max(b.x, c.x)) and\n                                                  ^\nHIGHWAY.cpp: In function 'bool LOC::intersect(const std::complex\u003cint\u003e\u0026, const std::complex\u003cint\u003e\u0026, const std::complex\u003cint\u003e\u0026, const std::complex\u003cint\u003e\u0026)':\nHIGHWAY.cpp:31:38: error: 'sign' was not declared in this scope\n     int o1 = sign(cross(b - a, c - a))\n                                      ^\nHIGHWAY.cpp:37:16: error: 'o2' was not declared in this scope\n         (o1 != o2 and o3 != o4) or\n                ^\nHIGHWAY.cpp:37:23: error: 'o3' was not declared in this scope\n         (o1 != o2 and o3 != o4) or\n                       ^\nHIGHWAY.cpp:37:29: error: 'o4' was not declared in this scope\n         (o1 != o2 and o3 != o4) or\n                             ^\nHIGHWAY.cpp: In function 'int LOC::main()':\nHIGHWAY.cpp:71:26: error: 'process' was not declared in this scope\n         ii ans = process();\n                          ^"
+  }
+}
