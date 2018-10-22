@@ -25,7 +25,7 @@ After downloading, extract the archive, do the [configuration](#configuration) a
 
 In addition to the source code, you should have the following apps/scripts installed:
 
-- [Node.js](http://nodejs.org) version >= 6 alongside npm
+- [Node.js](http://nodejs.org) version >= 8 alongside npm
 
 After cloning the source code open a terminal and type:
 
