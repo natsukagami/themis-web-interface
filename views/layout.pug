@@ -1,15 +1,15 @@
 doctype html
 
 mixin copyright()
-	.text-center
-		h5
+	footer.text-center
+		div
 			| Trình chấm 
 			a(href='https://dsapblog.wordpress.com/') Themis™
 			|  được thiết kế bởi 
 			b Lê Minh Hoàng
 			|  và 
 			b Đỗ Đức Đông
-		h5
+		div
 			| Web interface 
 			b #{TWIVersion} 
 			| - Made with ♥ from 
@@ -19,7 +19,7 @@ mixin copyright()
 
 html
 	head
-		title #{title} - #{global.Config.contestName}
+		title #{title} - #{config.contestName}
 		meta(name='viewport' content='width=device-width, initial-scale=1')
 		link(rel='stylesheet' type='text/css' href='/public/css/bootstrap/bootstrap.min.css')
 		link(rel='stylesheet' type='text/css' href='/public/css/common.css')
@@ -28,25 +28,24 @@ html
 		if recaptcha
 			script(src='https://www.google.com/recaptcha/api.js')
 	body
-		nav.navbar.navbar-inverse.navbar-fixed-top
-			.container
-				.navbar-header
-					a.navbar-brand.navbar-left(href='/')=global.Config.contestName
-					if global.Config.allowScoreboard
-						span.navbar-brand.navbar-left=' >> '
-						a.navbar-brand.navbar-left(href='/scoreboard') Bảng xếp hạng
-				if user
-					.navbar-text.navbar-right 
-						span 
-							| Xin chào, 
-							b=user.name
-							| !
-						|  
-						a.btn.btn-xs.btn-warning(href='/change-password') Đổi mật khẩu
-						|  
-						a.btn.btn-xs.btn-danger(href='/logout') Thoát
-		.container-fluid(style='padding-bottom: 60px')
+		nav.navbar.navbar-dark.bg-dark.fixed-top
+			div
+				a.navbar-brand(href='/')=config.contestName
+				if config.allowScoreboard
+					span.navbar-brand
+						| >> 
+						a.navbar-brand(href='/scoreboard') Bảng xếp hạng
+			if user
+				div
+					span.navbar-text
+						| Xin chào, 
+						b.navbar-text=user.name
+						| !
+					|  
+					a.btn.btn-sm.btn-warning(href='/change-password') Đổi mật khẩu
+					|  
+					a.btn.btn-sm.btn-danger(href='/logout') Thoát
+		.container-fluid
 			block content
-		footer.footer.navbar.navbar-default.navbar-fixed-bottom.hidden-xs
-			+copyright
-		.visible-xs-block: +copyright
+		hr
+		+copyright

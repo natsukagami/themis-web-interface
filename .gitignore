@@ -6,9 +6,11 @@ data/account.xml
 public/css/bootstrap/*
 public/css/fonts/*
 !public/css/fonts/NotoMono-Regular.ttf
-public/js/bootstrap/*
-public/js/jquery/*
-public/js/*.gz
+public/js/bootstrap
+public/js/jquery
+public/js/*.js
+public/js/*.js.map
+cldr-data
 
 # Distributed files
 data/files/*
@@ -16,6 +18,7 @@ data/files/*
 
 # Distributed
 dist
+release
 
 # Databases files
 data/*.db*
@@ -29,7 +32,7 @@ logs
 npm-debug.log*
 
 # Exclude log files in test
-!tests/*.log
+!testdata/*.log
 
 # Runtime data
 pids
