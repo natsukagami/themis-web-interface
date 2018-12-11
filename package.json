@@ -8,7 +8,7 @@
     "test": "yarn build-dev && mocha --recursive dist/tests/",
     "start": "cross-env DEBUG=themis:* node dist/index.js",
     "prod": "cross-env NODE_ENV=production DEBUG=themis:* node index.js",
-    "build-dev": "cross-env NODE_ENV=development DEBUG=gulp* gulp render-ts render-jsx",
+    "build-dev": "cross-env NODE_ENV=development DEBUG=gulp* gulp render_ts render_jsx",
     "prebuild": "yarn install",
     "build": "cross-env NODE_ENV=production DEBUG=gulp* gulp build",
     "watch": "cross-env NODE_ENV=development DEBUG=gulp gulp watch"
