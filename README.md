@@ -1,8 +1,8 @@
 # themis-web-interface
 
-[![Build Status](https://travis-ci.org/natsukagami/themis-web-interface.svg?branch=master)](https://travis-ci.org/natsukagami/themis-web-interface)
+[![Build Status](https://travis-ci.org/natsukagami/themis-web-interface.svg?branch=typescript)](https://travis-ci.org/natsukagami/themis-web-interface)
 
-A web interface for Themis, written in Node.js
+A web interface for Themis, written in Node.js + TypeScript.
 
 - [themis-web-interface](#themis-web-interface)
 	- [Running](#running)
@@ -23,19 +23,13 @@ After downloading, extract the archive, do the [configuration](#configuration) a
 
 ### From source
 
-In addition to the source code, you should have the following apps/scripts installed:
+**Running from source without building is no longer supported.**
 
-- [Node.js](http://nodejs.org) version >= 8 alongside npm
+Please refer to [Building](#building) to find out how to build the latest changes.
 
-After cloning the source code open a terminal and type:
+After building, the program can be started with
 
-```
-npm install
-```
-
-When the module installation finishes you can start the server anytime with:
-
-```
+```bash
 npm start
 ```
 
