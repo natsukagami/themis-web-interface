@@ -1,6 +1,4 @@
-const gulp = require('gulp');
-const source = require('vinyl-source-stream');
-const buffer = require('vinyl-buffer');
+const { series, parallel, watch, src, dest } = require('gulp');
 const debug = require('debug')('gulp');
 const gulpDebug = require('gulp-debug');
 const vfs = require('vinyl-fs');
@@ -11,18 +9,17 @@ const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const fs = require('fs');
 const promisify = require('util').promisify;
+const merge = require('merge-stream');
 
-gulp.task('default', ['build']);
-
-gulp.task('render-ts', () => {
-	return gulp
-		.src(['./src/**/*.ts', '!./src/frontend/**/*.ts'])
+const render_ts = () => {
+	return src(['./src/**/*.ts', '!./src/frontend/**/*.ts'])
 		.pipe(ts())
 		.pipe(gulpDebug({ title: 'tsc' }))
-		.pipe(gulp.dest('./dist'));
-});
+		.pipe(dest('./dist'));
+};
+exports.render_ts = render_ts;
 
-gulp.task('render-jsx', () =>
+const render_tsx = () =>
 	webpackStream(
 		{
 			...require('./webpack.config.js'),
@@ -31,41 +28,42 @@ gulp.task('render-jsx', () =>
 		webpack
 	)
 		.pipe(gulpDebug({ title: 'webpack' }))
-		.pipe(gulp.dest('./public/js'))
-);
+		.pipe(dest('./public/js'));
+exports.render_tsx = render_tsx;
 
-gulp.task('watch', ['render-ts', 'render-jsx'], () => {
-	gulp.watch(
+exports.default = parallel(render_ts, render_tsx);
+
+exports.watch = () => {
+	watch(
 		['./src/frontend/**/*.tsx', './src/frontend/**/*.ts'],
-		['render-jsx']
+		{ ignoreInitial: false },
+		render_tsx
 	);
-	gulp.watch(['./src/**/*.ts', '!./src/frontend/**/*.ts'], ['render-ts']);
-});
+	watch(
+		['./src/**/*.ts', '!./src/frontend/**/*.ts'],
+		{ ignoreInitial: false },
+		render_ts
+	);
+};
 
-gulp.task('build', [
-	'pre-build',
-	'build-copy-files',
-	'version-info',
-	'yarn-build',
-	'clean-yarn-files',
-	'zip',
-	'post-build'
-]);
+const verify_npm = async () => {
+	if (process.env.npm_package_version === undefined)
+		throw new Error('Script must be run from yarn / npm!');
+};
 
-gulp.task('pre-build', ['verify-npm'], async () => {
+const clean_build = async () => {
 	try {
 		await promisify(fs.stat)('.build');
 
-		debug('Cleaning up old build');
+		debug('Cleaning up .build');
 		return vfs.src('./.build', './.build/**/*').pipe(clean());
 	} catch (e) {
 		/* Do nothing */
 	}
-});
+};
 
-gulp.task('build-copy-files', ['pre-build', 'render-ts', 'render-jsx'], () => {
-	const merge = require('merge-stream');
-	return merge(
+const build_copy_files = () =>
+	merge(
 		vfs
 			.src(
 				[
@@ -87,60 +85,47 @@ gulp.task('build-copy-files', ['pre-build', 'render-ts', 'render-jsx'], () => {
 				{ base: '.' }
 			)
 			.pipe(gulpDebug())
-			.pipe(gulp.dest('./.build')),
+			.pipe(dest('./.build')),
 		vfs
 			.src('./dist/**/*', { base: '.' }) // Actual server source code
 			.pipe(gulpDebug())
-			.pipe(gulp.dest('./.build')),
+			.pipe(dest('./.build')),
 		vfs
 			.src('./config.sample.js') // Sample config file
 			.pipe(require('gulp-rename')('config.js'))
 			.pipe(gulpDebug())
-			.pipe(gulp.dest('./.build')),
+			.pipe(dest('./.build')),
 		vfs
 			.src('./data/account.sample.xml') // Sample account file
 			.pipe(require('gulp-rename')('data/account.xml'))
 			.pipe(gulpDebug())
-			.pipe(gulp.dest('./.build'))
+			.pipe(dest('./.build'))
 	);
-});
 
-gulp.task('yarn-build', ['build-copy-files'], () => {
-	return gulp
-		.src(['./.build/package.json'])
-		.pipe(gulp.dest('./.build'))
+const yarn_build = () =>
+	src(['./.build/package.json'])
+		.pipe(dest('./.build'))
 		.pipe(yarn({ production: true }));
-});
 
-gulp.task('version-info', ['build-copy-files'], async () => {
-	await promisify(fs.writeFile)(
+const version_info = async () =>
+	promisify(fs.writeFile)(
 		'./.build/twi.version',
 		`v${process.env.npm_package_version}`
 	);
-});
 
-gulp.task('clean-yarn-files', ['yarn-build'], () => {
-	return gulp
-		.src(
-			[
-				'./.build/package.json',
-				'./.build/yarn.lock',
-				'./.build/gulp_copydeps.js',
-				'./.build/.yarnclean'
-			],
-			{ read: false }
-		)
-		.pipe(clean());
-});
+const clean_yarn_files = () =>
+	src(
+		[
+			'./.build/package.json',
+			'./.build/yarn.lock',
+			'./.build/gulp_copydeps.js',
+			'./.build/.yarnclean'
+		],
+		{ read: false }
+	).pipe(clean());
 
-gulp.task('verify-npm', () => {
-	if (process.env.npm_package_version === undefined)
-		throw new Error('Script must be run from yarn / npm!');
-});
-
-gulp.task('zip', ['clean-yarn-files'], () => {
-	return gulp
-		.src('./.build/**/*')
+const zip = () =>
+	src('./.build/**/*')
 		.pipe(gulpDebug())
 		.pipe(
 			require('gulp-zip')(
@@ -149,9 +134,15 @@ gulp.task('zip', ['clean-yarn-files'], () => {
 				}_${require('moment')().format('YYYYMMDD-HHmmss')}.zip`
 			)
 		)
-		.pipe(gulp.dest('./release'));
-});
+		.pipe(dest('./release'));
 
-gulp.task('post-build', ['zip'], () => {
-	return vfs.src(['./.build'], { read: false }).pipe(clean());
-});
+exports.build = series(
+	verify_npm,
+	clean_build,
+	parallel(render_ts, render_tsx),
+	build_copy_files,
+	parallel(version_info, yarn_build),
+	clean_yarn_files,
+	zip,
+	clean_build
+);

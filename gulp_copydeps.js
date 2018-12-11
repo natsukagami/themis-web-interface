@@ -4,7 +4,7 @@ const debug = require('debug')('gulp');
 gulp.task('copy-deps', () => {
 	if (process.env.NODE_ENV === 'production') {
 		debug('In production, nothing to do');
-		return;
+		return Promise.resolve();
 	}
 	const vfs = require('vinyl-fs');
 	const merge = require('merge-stream');
