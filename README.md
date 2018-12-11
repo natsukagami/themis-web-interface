@@ -10,6 +10,8 @@ A web interface for Themis, written in Node.js + TypeScript.
 		- [From source](#from-source)
 	- [Configuration](#configuration)
 	- [Building](#building)
+		- [Creating a development build](#creating-a-development-build)
+		- [Creating a release build](#creating-a-release-build)
 	- [Contributing](#contributing)
 		- [LF / CRLF Problem](#lf--crlf-problem)
 	- [Current Implementation Status](#current-implementation-status)
@@ -53,15 +55,40 @@ Any public files should be put into `data\files` directory. It will automaticall
 
 ## Building
 
+Requirements:
+
+- **Node.js** version 8 or later
+- (_Highly recommended_) yarn. Explanation below.
+
 For best compatibility with my own build scripts I recommend using [yarn](https://yarnpkg.com) over npm. Currently the build scripts should work fine with npm however this is not promised in the future.
 
 First run `yarn` (`npm install` with npm) to install all build modules. This could take some time, as there are lots of modules required.
 
-Open a terminal within the source code's root folder and type `yarn build` (`npm build` with npm) to build the `.zip` package. It will be available in the `dist` folder.
+### Creating a development build
+
+A development build can be created with
+
+```bash
+yarn build-dev
+npm run build-dev # for non-yarn users
+```
+
+Auto-rebuilding systems (watch) are also supported:
+
+```bash
+yarn watch
+npm run watch # for non-yarn users
+```
+
+### Creating a release build
+
+Open a terminal within the source code's root folder and type `yarn build` (`npm build` with npm) to build the `.zip` package. It will be available in the `release` folder.
 
 ## Contributing
 
-Please follow the ESLint restrictions included with the source code. I am glad to look at any problem you face and will kindly respond to all legitimate PRs so do not hesitate. Feature requests are also welcomed, however if you only come up with the idea and no details or any intent to code / help me out with its implementation, please go away.
+Please follow the TSLint restrictions included with the source code. I am glad to look at any problem you face and will kindly respond to all legitimate PRs so do not hesitate. Feature requests are also welcomed, however if you only come up with the idea and no details or any intent to code / help me out with its implementation, please go away.
+
+The TSLint config is always included with the repository. If you don't run lint before PR-ing, you are ignored.
 
 ### LF / CRLF Problem
 
@@ -78,6 +105,5 @@ All code files ends a line with `LF`. Only real data files (e.g. log files in `t
 - [x] Judge result parsing.
 - [x] Public file serving.
 - [x] Web code editor.
-- [x] More lightweight JS file (now gzipped to under 512kB!).
 - [x] Auto update.
 - [x] Scoreboard.
