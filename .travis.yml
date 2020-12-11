@@ -4,6 +4,9 @@ node_js:
   - node
   - 7
 before_install:
+  - set NPM_CONFIG_LOGLEVEL=error
+  - set NODE_VERBOSE=false
+  - set NODE_ENV=production
   - npm install -g yarn
 install:
   - yarn
